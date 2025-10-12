@@ -1,0 +1,42 @@
+<h3>Chamados</h3>
+
+{{#if success}}
+    <div class="alert alert-success">
+        {{#each success}}
+            {{this}}
+        {{/each}}
+    </div>
+{{/if}}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Título</th>
+            <th>Prioridade</th>
+            <th>Descrição</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Erro no login</td>
+            <td>Critica</td>
+            <td>Usuário não consegue acessar</td>
+            <td>
+                <span class="badge badge-success">Aberto</span>
+            </td>
+        </tr>
+
+        <tr>
+            <td>2</td>
+            <td>Erro ao cadastrar fornecedor</td>
+            <td>Alta</td>
+            <td>Nada funciona</td>
+            <td>
+                <span class="badge badge-success">Aberto</span>
+            </td>
+        </tr>
+    </tbody>
+</table>
