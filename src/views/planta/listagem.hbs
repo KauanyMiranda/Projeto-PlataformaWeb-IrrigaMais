@@ -1,0 +1,59 @@
+{{#if success}}
+    <div class="alert alert-success">
+        {{#each success}}
+            {{this}}
+        {{/each}}
+    </div>
+{{/if}}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Consultas de plantas</h2>
+
+    <form class="d-flex mb-4" method="get" action="/planta/listagem">
+    <input class="form-control me-2"
+    type="search"
+    name="nome"
+    placeholder="Digite o nome da planta"
+    aria-label="Pesquisar planta"
+    > <button class="btn btn-primary" type="submit">Pesquisar</button>
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+        <th>Nome da Planta</th>
+          <th>Frequência de Irrigação</th>
+          <th>Dias da Irrigação</th>
+          <th>Quantidade de Água (ml)</th>
+          <th>Horários de Irrigação</th>
+          <th>Sensor</th> 
+            </tr>
+        </thead>
+        <tbody>
+        {{#if plantas.length}}
+          {{#each plantas}}
+          <tr>
+            <td>{{nome}}</td>
+            <td>{{frequencia}} vez(es) ao dia</td>
+            <td>
+              {{#each dias}}
+                {{this}}{{#unless @last}}, {{/unless}}
+              {{/each}}
+            </td>
+            <td>{{qtd_agua}} ml</td>
+            <td>
+              {{#each horarios}}
+                {{this}}{{#unless @last}}, {{/unless}}
+              {{/each}}
+            </td>
+            <td>{{sensor}}</td>
+          </tr>
+          {{/each}}
+        {{else}}
+          <tr>
+            <td colspan="6" class="text-center text-muted">Nenhuma planta cadastrada.</td>
+          </tr>
+        {{/if}}
+      </tbody>
+    </table>
+</div>

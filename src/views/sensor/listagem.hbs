@@ -1,0 +1,51 @@
+{{#if success}}
+    <div class="alert alert-success">
+        {{#each success}}
+            {{this}}
+        {{/each}}
+    </div>
+{{/if}}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Consultas de Sensores</h2>
+    <form class="d-flex mb-4" method="get" action="/sensor">
+    <input input class="form-control me-2"
+    type="search"
+    name="nome"
+    placeholder="Digite o nome do sensor"
+    aria-label="Pesquisar sensor">
+    <button class="btn btn-primary" type="submit">Pesquisar</button>
+    </form>
+     <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome do Sensor</th>
+                <th>Tipo</th>
+                <th>Modelo</th>
+                <th>Fabricante</th>
+                <th>Localização</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#if sensores.length}}
+                {{#each sensores}}
+                    <tr>
+                        <td>{{nome}}</td>
+                        <td>{{tipo}}</td>
+                        <td>{{modelo}}</td>
+                        <td>{{fabricante}}</td>
+                        <td>{{localizacao}}</td>
+                        <td>{{status}}</td>
+                    </tr>
+                {{/each}}
+            {{else}}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">
+                        Nenhum sensor cadastrado.
+                    </td>
+                </tr>
+            {{/if}}
+        </tbody>
+    </table>
+</div>
