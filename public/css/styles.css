@@ -3735,6 +3735,14 @@ textarea.form-control-lg {
   width: 100%;
 }
 
+.nav-fill .nav-item:last-child {
+  flex: 0 0 auto !important;   /* impede que ele cresça como os outros */
+  margin-left: auto !important; /* empurra para a direita */
+  text-align: right;
+}
+
+
+
 .tab-content > .tab-pane {
   display: none;
 }
@@ -10863,11 +10871,11 @@ body {
   display: flex;
 }
 #layoutSidenav #layoutSidenav_nav {
-  flex-basis: 225px;
+  flex-basis: 80px; /* largura estreita por padrão */
   flex-shrink: 0;
-  transition: transform 0.15s ease-in-out;
+  transition: width 0.3s ease;
   z-index: 1038;
-  transform: translateX(-225px);
+  transform: none; /* sidebar visível desde o início */;
 }
 #layoutSidenav #layoutSidenav_content {
   position: relative;
@@ -10877,7 +10885,8 @@ body {
   min-width: 0;
   flex-grow: 1;
   min-height: calc(100vh - 56px);
-  margin-left: -225px;
+  margin-left: 80px; /* ajusta conteúdo para sidebar estreita */
+  transition: margin-left 0.3s ease;
 }
 
 .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
@@ -10898,28 +10907,56 @@ body {
 }
 
 @media (min-width: 992px) {
-  #layoutSidenav #layoutSidenav_nav {
-    transform: translateX(0);
+  body.sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
+    width: 180px !important; /* sidebar expandida */
   }
-  #layoutSidenav #layoutSidenav_content {
-    margin-left: 0;
-    transition: margin 0.15s ease-in-out;
+
+  body.sb-sidenav-toggled #layoutSidenav #layoutSidenav_content {
+    margin-left: 180px !important; /* conteúdo ajustado */
   }
-  .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
-    transform: translateX(-225px);
+
+  body.sb-sidenav-toggled .sb-sidenav .nav-link {
+    font-size: 1rem !important; /* mostra o texto */
+    text-align: left;
+    padding: 0.75rem 1rem;
   }
-  .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content {
-    margin-left: -225px;
+
+  body.sb-sidenav-toggled .sb-sidenav .nav-link .sb-nav-link-icon {
+    margin-right: 0.5rem;
+    float: left;
   }
-  .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
-    display: none;
-  }
+
 }
+
+/* Esconde os textos dos links por padrão */
+.sb-sidenav .nav-link {
+  font-size: 0;
+  text-align: center;
+  padding: 0.75rem 0;
+  transition: font-size 0.3s ease, padding 0.3s ease;
+}
+
+/* Ícones centralizados */
+.sb-sidenav .nav-link {
+  font-size: 0;
+  text-align: center;
+  padding: 0.75rem 0;
+  transition: font-size 0.3s ease, padding 0.3s ease;
+}
+
+.sb-sidenav .nav-link .sb-nav-link-icon {
+  margin: 0 auto;
+  font-size: 1.25rem;
+  transition: margin 0.3s ease;
+}
+
+
+
 .sb-nav-fixed .sb-topnav {
   z-index: 1039;
 }
 .sb-nav-fixed #layoutSidenav #layoutSidenav_nav {
-  width: 225px;
+  width: 80px;
   height: 100vh;
   z-index: 1038;
 }
