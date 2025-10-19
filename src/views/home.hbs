@@ -1,118 +1,84 @@
 <div class="container-fluid px-4">
   <ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active">Dashboard</li>
   </ol>
 
-  <div class="row">
+  <div class="row justify-content-center">
     <div class="col-xl-6">
-      <div class="card mb-4">
-        <div class="card-header">
-          <i class="fas fa-chart-area me-1"></i>
-          Dash board Irrigação
-        </div>
-        <div class="card-body">
-          {{#if weather}}
-            <p>Temperatura: {{weather.current.temp_c}}°C</p>
-            <p>Clima: {{weather.current.condition.text}}</p>
-            <p>Humidade: {{weather.current.humidity}}%</p>
-          {{else}}
-            <p>Não foi possível obter o clima.</p>
-          {{/if}}
-        </div>
-      </div>
-    <div>
-</div>
+      <div id="container">
+        {{#if clima}}
+          <div id="weather" class="show">
+            <h1 id="title">{{clima.cidade}}, {{clima.pais}}</h1>
 
-    <div id="container">
-      <form id="search">
-        <div id="search-bar">
-          <i class="fa-solid fa-location-dot"></i>
-          <input type="search" name="city_name" id="city_name" placeholder="Buscar cidade">
-          <button id="btn" type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </div>
-
-        <div id="weather" class="show">
-          <h1 id="title">Ji-Paraná, RO</h1>
-          <div id="infos">
-            <div id="temp">
-              <img id="temp_img" src="https://openweathermap.org/img/wn/04d@2x.png" alt="">
-              <div>
-                <p id="temp_value">32 <sup>C°</sup></p>
-                <p id="temp_description">Ensolarado</p>
-              </div>
-            </div>
-
-            <div id="other_infos">
-              <div class="info">
-                <i id="temp_max_icon" class="fa-solid fa-temperature-high"></i>
+            <div id="infos">
+              <div id="temp">
+                <img id="temp_img" src="{{clima.icone}}" alt="icone do clima">
                 <div>
-                  <h2>Temp. max</h2>
-                  <p id="temp_max">32 <sup>C°</sup></p>
+                  <p id="temp_value">{{clima.temp}} <sup>°C</sup></p>
+                  <p id="temp_description">{{clima.descricao}}</p>
                 </div>
               </div>
 
-              <div class="info">
-                <i id="temp_min_icon" class="fa-solid fa-temperature-low"></i>
-                <div>
-                  <h2>Temp. min</h2>
-                  <p id="temp_min">12 <sup>C°</sup></p>
+              <div id="other_infos">
+                <div class="info">
+                  <i id="temp_max_icon" class="fa-solid fa-temperature-high"></i>
+                  <div>
+                    <h2>Temp. máx</h2>
+                    <p id="temp_max">{{clima.temp_max}} <sup>°C</sup></p>
+                  </div>
                 </div>
-              </div>
 
-              <div class="info">
-                <i id="humidity_icon" class="fa-solid fa-droplet"></i>
-                <div>
-                  <h2>Humidade</h2>
-                  <p id="humidity">50%</p>
+                <div class="info">
+                  <i id="temp_min_icon" class="fa-solid fa-temperature-low"></i>
+                  <div>
+                    <h2>Temp. mín</h2>
+                    <p id="temp_min">{{clima.temp_min}} <sup>°C</sup></p>
+                  </div>
                 </div>
-              </div>
 
-              <div class="info">
-                <i id="wind_icon" class="fa-solid fa-wind"></i>
-                <div>
-                  <h2>Vento</h2>
-                  <p id="wind">50 km/h</p>
+                <div class="info">
+                  <i id="humidity_icon" class="fa-solid fa-droplet"></i>
+                  <div>
+                    <h2>Umidade</h2>
+                    <p id="humidity">{{clima.umidade}}%</p>
+                  </div>
+                </div>
+
+                <div class="info">
+                  <i id="wind_icon" class="fa-solid fa-wind"></i>
+                  <div>
+                    <h2>Vento</h2>
+                    <p id="wind">{{clima.vento}} km/h</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div id="alert"></div>
-      </form>
-    </div>
-  </div>
-
-  <div class="card mb-4">
-    <div class="card-header">
-      <i class="fas fa-table me-1"></i>
-      Plantas cadastradas
-    </div>
-    <div class="card-body">
-      <table id="datatablesSimple">
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Necessidade hídrica</th>
-            <th>Consumo de água</th>
-            <th>Tempo irrigado</th>
-            <th>Irrigado hoje?</th>
-            <th>Salary</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Rosa do Deserto</td>
-            <td>3 lt</td>
-            <td>10 min</td>
-            <td>10 min</td>
-            <td>sim</td>
-            <td>$320,800</td>
-          </tr>
-        </tbody>
-      </table>
+        {{else}}
+          <p>Não foi possível obter o clima atual.</p>
+        {{/if}}
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('lat') && params.has('lon')) return;
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        window.location.href = `/?lat=${lat}&lon=${lon}`;
+      },
+      err => {
+        console.warn('Não foi possível obter localização. Usando padrão Ji-Paraná.');
+      }
+    );
+  } else {
+    console.warn('Geolocalização não suportada pelo navegador.');
+  }
+});
+</script>

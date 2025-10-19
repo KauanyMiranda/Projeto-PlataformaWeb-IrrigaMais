@@ -10905,7 +10905,7 @@ body {
   text-align: left;
   border-radius: 10px; 
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); 
-  transition: all 0.3s ease;
+  transition: all 0.3s ease;;
 }
 
 .nav-button:hover {
@@ -11009,14 +11009,7 @@ body {
   margin-right: 0.5rem;
 }
 
-
-
-
-
-
-
 .sb-topnav {
-  /* position: fixed; */
   top: 0;
   left: 220px;                  
   height: 56px;
@@ -11029,15 +11022,14 @@ body {
 }
 
 .user-info {
-  /* position: fixed; */
   top: 10px;
   right: 25px;
   display: flex;
-  flex-direction: column;     /* 🔹 coloca o nome embaixo do ícone */
-  align-items: center;        /* centraliza tudo */
+  flex-direction: column;     
+  align-items: center;        
   justify-content: center;
   gap: 0.3rem;
-  padding: 12px 18px;         /* 🔹 aumenta o tamanho da div */
+  padding: 12px 18px;         
   border-radius: 12px;
   background: #1A5748;
   color: white;
@@ -11045,20 +11037,19 @@ body {
   font-weight: 600;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
-  width: 130px;                /* 🔹 define largura fixa */
-  height: 70px;              /* 🔹 aumenta altura */
-  text-align: center;         /* centraliza o nome */
+  width: 130px;                
+  height: 70px;              
+  text-align: center;         
   z-index: 999999;
   transition: all 0.3s ease;
 }
 
-/* Ícone */
 .user-info i {
-  font-size: 50rem  ;            /* 🔹 ícone maior */
+  font-size: 50rem  ;            
   color: #A4C3A2 ;
 }
 
-/* Nome */
+
 .user-info span {
   font-size: 0.85rem;
   color: #E5F1EC;

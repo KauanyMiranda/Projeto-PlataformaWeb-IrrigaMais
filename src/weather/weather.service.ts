@@ -1,20 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import axios from 'axios';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class WeatherService {
-  private apiKey = '1ffeb0b1a9e04699a4c45100251210';
-  private city = 'Ji-Parana';
+  private readonly apiKey = 'b530897f08b4433bc6736eafe8867095';
 
-  async getWeather() {
-    const url = `http://api.weatherapi.com/v1/current.json?key=${this.apiKey}&q=${this.city}&lang=pt`;
+  constructor(private readonly httpService: HttpService) {}
 
-    try {
-      const response = await axios.get(url);
-      return response.data;
-    } catch (error) {
-      console.error('Erro ao buscar clima:', error.message);
-      return null;
-    }
+   async getWeather(lat: number, lon: number) {
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric&lang=pt_br`;
+
+    const { data } = await firstValueFrom(this.httpService.get(url));
+
+    return {
+      cidade: data.name,
+      pais: data.sys.country,
+      descricao: data.weather[0].description,
+      icone: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
+    temp: Math.round(data.main.temp),
+    temp_max: Math.round(data.main.temp_max),
+    temp_min: Math.round(data.main.temp_min),
+      umidade: data.main.humidity,
+      vento: (data.wind.speed * 3.6).toFixed(1),
+    };
   }
 }

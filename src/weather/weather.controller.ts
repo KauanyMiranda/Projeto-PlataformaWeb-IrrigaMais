@@ -1,14 +1,19 @@
-import { Controller, Get, Render } from '@nestjs/common';
+import { Controller, Get, Query, Render } from '@nestjs/common';
 import { WeatherService } from './weather.service';
 
-@Controller()
+@Controller('weather')
 export class WeatherController {
-  constructor(private weatherService: WeatherService) {}
+  constructor(private readonly weatherService: WeatherService) {}
 
-  @Get('/')
-  @Render('home') // ou 'menu' se for esse o arquivo HBS
-  async showDashboard() {
-    const weather = await this.weatherService.getWeather();
-    return { weather };
+  @Get()
+  @Render('weather')
+  async showWeather(@Query('lat') lat: string, @Query('lon') lon: string) {
+    // Se não houver lat/lon, usa uma localização padrão (ex: Ji-Paraná)
+    const latitude = parseFloat(lat) || -10.8753;
+    const longitude = parseFloat(lon) || -61.9521;
+
+    const clima = await this.weatherService.getWeather(latitude, longitude);
+    return { title: 'Clima Atual', clima };
   }
 }
+
