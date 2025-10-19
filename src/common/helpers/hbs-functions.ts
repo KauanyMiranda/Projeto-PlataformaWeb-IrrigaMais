@@ -5,21 +5,21 @@ export const helpers = {
   },
   inc: (value: string) => parseInt(value) + 1,
   json: (context) => JSON.stringify(context, null, 2),
-  // 'error-message': (errors: any[], key: string) =>
-  //   errors?.find((i) => i.property == key)?.message,
-  // 'error-messages': (errors: any[], key: string) =>
-  //   errors?.find((i) => i.property == key)?.messages,
-  // setValue: (valueDefault: any, valueCheck?: any) => {
-  //   if (!valueCheck) return valueDefault;
-  //   if (valueDefault && valueCheck) return valueDefault;
-
-  //   return valueCheck;
-  // },
   'selected-option': (id: any, compareId: any, oldId?: any) => {
     if (oldId) return id == oldId ? 'selected' : '';
-
     return id == compareId ? 'selected' : '';
   },
   isString: (value) => typeof value === 'string',
   year: () => new Date().getFullYear(),
+
+  ifEquals: (a: any, b: any) => a == b,
+  includes: (item: any, array: any[]) => Array.isArray(array) && array.includes(item),
+
+  range: (start: number, end: number): number[] => {
+  const arr: number[] = [];
+  for (let i = start; i <= end; i++) arr.push(i);
+  return arr;
+},
+
+  dec: (value: number) => value - 1,
 };
