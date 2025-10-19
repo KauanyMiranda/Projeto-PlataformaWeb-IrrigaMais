@@ -1,72 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>{{title}}</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>{{title}}</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
-    <link href="/css/styles.css" rel="stylesheet" />
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+  <link href="/css/styles.css" rel="stylesheet" />
+  <link href="/css/home.css" rel="stylesheet" />
+
+
+  <script src="/public/js/weather.js"></script>
+  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
 
-    <!-- Top Navbar -->
-        <nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color:#0C3732 ;">
-            <!-- Navbar Brand-->
-            <!-- Sidebar Toggle-->
-            {{!-- <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars" style="color: #B2DFDB;"></i></button> --}}
-            <!-- Navbar Search-->
-            <!-- Navbar-->
-        </nav>
+    <div class="logo-container">
+        <img src="/images/logo.png" alt="Logo" class="sidebar-logo">
+        <h1 class="logo-nome">Irriga<span>+</span></h1>
+    </div>
+
+    <nav class="sb-topnav navbar">
+        <div class="user-info">
+            <i class="fa-solid fa-circle-user"></i>
+            <span>Mateus Viana</span>         
+        </div>
+    </nav>
+
 
     <!-- Sidebar + Content -->
     <div id="layoutSidenav">
         <!-- Sidebar -->
-        <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion" id="sidenavAccordion" style="background-color: #0C3732;">
+        <div id="layoutSidenav_nav">      
+                <nav class="sb-sidenav accordion" id="sidenavAccordion" style="background-color: #123E34;">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            {{!-- <div class="sb-sidenav-menu-heading">Principal</div> --}}
-                            <a class="nav-link" href="index.html" style="color: #B2DFDB;">
-                                <div class="sb-nav-link-icon" ><i class="fa-solid fa-house" style="color: #B2DFDB;"></i></div>
-                                Menu
-                            </a>
-                            {{!-- <div class="sb-sidenav-menu-heading">Interface</div> --}}
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts" style="color: #B2DFDB;">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-seedling" style="color: #B2DFDB;"></i></div>
-                                Plantas
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="layout-static.html">Plantas</a>
-                                    <a class="nav-link" href="layout-sidenav-light.html">Sensores</a>
-                                </nav>
-                            </div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts" style="color: #B2DFDB;">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check" style="color: #B2DFDB;"></i></div>
-                                Rotina
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages" style="color: #B2DFDB;">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-tower-broadcast" style="color: #B2DFDB;"></i></div>
-                                Sensores
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages" style="color: #B2DFDB;">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-chart-line" style="color: #B2DFDB;"></i></div>
-                                Dashboard
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                              <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages" style="color: #B2DFDB;">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-file-lines" style="color: #B2DFDB;"></i></div>
-                                Relatórios
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>                            
+                            <button class="nav-button" href="index.html">            
+                                <i class="fa-solid fa-house"></i>
+                                <span>Início</span>
+                            </button>
+                            <button class="nav-button" href="index.html">            
+                                <i class="fa-solid fa-seedling" ></i>
+                                <span>Plantas</span>
+                            </button>
+                            <button class="nav-button" href="index.html">            
+                                <i class="fa-solid fa-list-check"></i>
+                                <span>Rotinas</span>
+                            </button>
+                            <button class="nav-button" href="index.html">            
+                                <i class="fa-solid fa-tower-broadcast"></i>
+                                <span>Sensores</span>
+                            </button>
+                            <button class="nav-button" href="index.html">            
+                                <i class="fa-solid fa-chart-line"></i>
+                                <span>Dashboard</span>
+                            </button>
+                            <button class="nav-button" href="index.html">            
+                                <i class="fa-solid fa-file-lines"></i>
+                                <span>Relatórios</span>
+                            </button>                          
                             
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
@@ -115,7 +110,7 @@
         <!-- Main Content -->
         <div id="layoutSidenav_content">
             <main>
-                {{{body}}}  <!-- Aqui você coloca o conteúdo de cada tela -->
+                {{{body}}}  
             </main>
            
         </div>

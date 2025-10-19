@@ -13,7 +13,7 @@ import { helpers } from './common/helpers/hbs-functions';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  // Configuração do Handlebars
+  
   const hbs = exphbs.create({
   extname: '.hbs',
   layoutsDir: join(__dirname, '..', 'src', 'views/_layouts'),
@@ -28,7 +28,7 @@ app.setBaseViewsDir(join(__dirname, '..', 'src', 'views'));
   app.setViewEngine('hbs');
   app.useStaticAssets(join(__dirname, '..', 'public'));
 
-  // Middlewares
+  
   app.use(methodOverride('_method'));
   app.use(flash());
   app.use(
@@ -39,7 +39,7 @@ app.setBaseViewsDir(join(__dirname, '..', 'src', 'views'));
     }),
   );
 
-  // Filtros globais
+  
   app.useGlobalFilters(new NotFoundExceptionFilter());
 
   const port = process.env.PORT || 3333;
