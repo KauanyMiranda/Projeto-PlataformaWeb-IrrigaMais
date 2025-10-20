@@ -1,37 +1,30 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+<link rel="stylesheet" href="/css/login.css">
+        <script src="https://kit.fontawesome.com/aef00f4de5.js" crossorigin="anonymous"></script>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="/css/login.css">
 </head>
-<body class="align">
+<body>
+    <main>
+    <div class="container">
+        <img src="/assets/img/Irriga + 1.png" alt="logo do projeto">
+        <form action="login.hbs" method="post" enctype="multipart/form-data">
+            <label for="Email">Email</label><br>
+            <i class="fa-solid fa-user"></i><input type="email" placeholder="devserbug@gmail.com"><br>
+            <label for="Senha">Senha</label><br>
+            <i class="fa-solid fa-key"></i><input type="password" id="password" placeholder="Digite a sua senha aqui:"> <br>
+            <label for="Não possui senha?">Não possui senha ainda? 
+                <a href="https://www.youtube.com/@BroCodez" target="_blank">Criar conta</a>
+            </label> <br>           
+            <button type="button" class="entrar">Entrar</button>
 
-  <div class="grid align__item">
-    <div class="register">
-      <h2>Login</h2>
-
-      <form action="" method="post" class="form">
-        <div class="form__field">
-          <input type="email" placeholder="info@mailaddress.com">
-        </div>
-
-        <div class="form__field">
-          <input type="password" placeholder="••••••••••••">
-        </div>
-
-        <div class="form__field">
-          <input type="submit" value="Entrar">
-        </div>
-      </form>
-
-      <p>Você não tem conta? <a href="#">Registre-se</a></p>
+        </form>
     </div>
-  </div>
+    </main>
 
 </body>
 </html>

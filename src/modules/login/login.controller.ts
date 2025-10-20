@@ -15,7 +15,7 @@ export class LoginController {
   handleLogin(@Body() body: { username: string; password: string }) {
     const { username, password } = body;
 
-    if (username === 'admin' && password === '1234') {
+    if (username === 'devserbug@gmail.com' && password === '1234') {
       return 'Login realizado com sucesso!';
     } else {
       return 'Usuário ou senha incorretos!';

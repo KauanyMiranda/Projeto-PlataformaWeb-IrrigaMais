@@ -1,102 +1,103 @@
-:root {
-  --brand-color: #57b846;
-  --accent-color: #57b846;
-  --text-color: #fff;
-  --bg-color: #131415;
-  --light-bg-color: #2b2b2b;
-  --form-bg: #1d1f20;
-  --input-bg: #2a2b2c;
-  --input-border: #3a3b3c;
-  --input-text-color: #fff;
-  --focus-color: #57b846;
-  --error-color: #f44336;
+* {
+    margin: 0;
+    padding: 0;     
+    box-sizing: content-box;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+body{
+    background-image: url(/assets/img/backgroundirriga+\(1\).png);
+     background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    background-blend-mode:saturation;
 }
-
-body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  font-family: 'Inter UI', sans-serif;
-  height: 100vh;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 main {
-  width: 100%;
-  max-width: 400px;
-  background: var(--form-bg);
-  border-radius: 8px;
-  padding: 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+   
 }
 
-.grid.register {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
+.container{
+    background: white;
+    width: 400px;
+    height: 500px;
+    border: 2px solid rgb(185, 185, 185);
+    box-shadow: 1px 1px 5px black;
+    
+}
+.container label{
+font-size: 17px;
+font-family: Arial, Helvetica, sans-serif;
+font-weight: light;
+text-align: justify;
+padding: 0px;
+margin-left: 55px;
+}
+.container input{
+font-size: 17px;
+font-family: Arial, Helvetica, sans-serif;
+font-weight: light;
+text-align: justify;
+padding: 5px;
+width: 300px;
+margin-left: 10px;
+border-radius: 10px; 
+margin-top: 2px;
+margin-bottom: 4px;
 }
 
-h2 {
-  color: var(--accent-color);
-  text-align: center;
+.container .fa-solid.fa-user{
+    margin-left: 25px;
+}
+.container .fa-solid.fa-key{
+    margin-left: 25px;
+}
+.container button{
+    padding: 18px;
+    width:85px;
+    border-radius: 20px;
+    font-size: 17px;
+    color: white;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: hsl(173, 64%, 14%);
+    transform: translateX(147px);
+    margin-top: 30px;
+    cursor: pointer;
 }
 
-.form__field {
-  display: flex;
-  flex-direction: column;
+.container button:hover{
+    background-color: hsl(173, 64%, 20%);
+
 }
 
-.form__field input[type="email"],
-.form__field input[type="password"] {
-  background-color: var(--input-bg);
-  border: 1px solid var(--input-border);
-  border-radius: 4px;
-  color: var(--input-text-color);
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  transition: border-color 0.2s ease;
+.container a{
+    color: hsl(173, 64%, 14%);
+}
+.container a:hover{
+        color: hsl(173, 64%, 20%);
+
+}
+.container img{
+    margin-left: 90px;
+    margin-top: 5px;
 }
 
-.form__field input[type="email"]:focus,
-.form__field input[type="password"]:focus {
-  border-color: var(--focus-color);
-  outline: none;
+.container img:hover{
+animation-name: grow;
+ animation-duration:2s;
+ animation-iteration-count: infinite;
+ animation-direction: alternate-reverse;
+ animation-play-state: running;
+ animation-timing-function: ease-in-out; 
 }
 
-.form__field input[type="submit"] {
-  background-color: var(--brand-color);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.form__field input[type="submit"]:hover {
-  background-color: #45a03c;
-}
-
-p {
-  text-align: center;
-  font-size: 0.9rem;
-  color: #bbb;
-}
-
-p a {
-  color: var(--accent-color);
-  text-decoration: none;
-}
-
-p a:hover {
-  text-decoration: underline;
+@keyframes grow{
+    50%{transform: scale(1.05,1.05);}
 }
