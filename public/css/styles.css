@@ -10852,6 +10852,7 @@ textarea.form-control-lg {
 html,
 body {
   height: 100%;
+  background-color: #E8F2ED;
 }
 
 #layoutAuthentication {

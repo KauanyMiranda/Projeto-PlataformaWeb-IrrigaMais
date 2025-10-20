@@ -1,5 +1,18 @@
-<div class="container mt-5">
-  <h2 class="mb-4">{{#if sensor.id}}Editar Sensor{{else}}Cadastro de Sensor{{/if}}</h2>
+<div class="container" style="
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 25px 35px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
+  margin-top: 40px;
+">
+  <h2 style="
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1a5748;
+    border-bottom: 2px solid #1a5748;
+    padding-bottom: 8px;
+  ">{{#if sensor.id}}Editar Sensor{{else}}Cadastro de Sensor{{/if}}</h2>
 
   {{#if error}}
     <div class="alert alert-danger">{{error}}</div>
@@ -8,39 +21,133 @@
   <form method="post" action="{{#if sensor.id}}/sensor/editar/{{sensor.id}}{{else}}/sensor/novo/salvar{{/if}}">
     
     <div class="mb-3">
-      <label for="nomeSensor" class="form-label">Nome do Sensor</label>
-      <input type="text" name="nome" id="nomeSensor" class="form-control" value="{{sensor.nome}}" required>
+      <label for="nomeSensor" class="form-label" style="font-weight: 600; color: #133E34;">Nome</label>
+      <input type="text" name="nome" id="nomeSensor" class="form-control" value="{{sensor.nome}}" required 
+      style="
+        border-radius: 10px; 
+        border: 1px solid #ccc; 
+        padding: 10px;
+      ">
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Tipo do Sensor</label>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="tipo" id="umidade" value="umidade" {{#if (ifEquals sensor.tipo "umidade")}}checked{{/if}} required>
-        <label class="form-check-label" for="umidade">Umidade</label>
+      <label class="form-label" style="font-weight: 600; color: #133E34;">Tipo de Sensor</label>
+      <div style="
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 10px;
+      ">
+        <input 
+          class="form-check-input" 
+          type="radio" 
+          name="tipo" 
+          id="umidade" 
+          value="umidade" {{#if (ifEquals sensor.tipo "umidade")}}checked{{/if}} required
+          style="
+            accent-color: #1A5748;
+        ">
+        <label 
+          class="form-check-label" 
+          for="umidade" 
+          style="
+            text-transform: capitalize; 
+            color: #333;
+        ">Umidade</label>
       </div>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="tipo" id="chuva" value="chuva" {{#if (ifEquals sensor.tipo "chuva")}}checked{{/if}} required>
-        <label class="form-check-label" for="chuva">Chuva</label>
+      <div style="
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 10px;
+      ">
+        <input 
+          class="form-check-input" 
+          type="radio" 
+          name="tipo" 
+          id="chuva" 
+          value="chuva" {{#if (ifEquals sensor.tipo "chuva")}}checked{{/if}} required
+          style="
+          accent-color: #1A5748;
+        ">
+        <label 
+          class="form-check-label" 
+          for="chuva"
+          style="
+            text-transform: capitalize; 
+            color: #333;
+        ">Chuva</label>
       </div>
     </div>
 
     <div class="mb-3">
-      <label for="localizacaoSensor" class="form-label">Localização do Sensor</label>
-      <input type="text" name="localizacao" id="localizacaoSensor" class="form-control" value="{{sensor.localizacao}}" placeholder="Ex: Estufa 1 - Lado Norte">
+      <label for="localizacaoSensor" class="form-label" style="font-weight: 600; color: #133E34;">Localização do Sensor</label>
+      <input 
+        type="text" 
+        name="localizacao" 
+        id="localizacaoSensor"
+        class="form-control" 
+        value="{{sensor.localizacao}}" 
+        placeholder="Ex: Horta" 
+        style="
+          border-radius: 10px; 
+          border: 1px solid #ccc; 
+          padding: 10px;
+      ">
     </div>
 
-    <div class="mb-3">
-      <label class="form-label">Status do Sensor</label>
+    <div style="
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 10px;
+    ">
+      <label class="form-label" style="font-weight: 600; color: #133E34;">Status:</label>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="status" id="ativo" value="ativo" {{#if (ifEquals sensor.status "ativo")}}checked{{/if}} required>
-        <label class="form-check-label" for="ativo">Ativo</label>
+        <input 
+          class="form-check-input" 
+          type="radio" 
+          name="status" 
+          id="ativo" 
+          value="ativo" {{#if (ifEquals sensor.status "ativo")}}checked{{/if}} required 
+          style="
+          accent-color: #1A5748;
+        ">
+        <label 
+          class="form-check-label" 
+          for="ativo" 
+          style="
+            text-transform: capitalize; 
+            color: #333;
+        ">Ativo</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="status" id="inativo" value="inativo" {{#if (ifEquals sensor.status "inativo")}}checked{{/if}} required>
-        <label class="form-check-label" for="inativo">Inativo</label>
+        <input  
+          class="form-check-input" 
+          type="radio" 
+          name="status" 
+          id="inativo" 
+          value="inativo" {{#if (ifEquals sensor.status "inativo")}}checked{{/if}} required
+          style="
+          accent-color: #1A5748;
+        ">
+        <label 
+          class="form-check-label" 
+          for="inativo" 
+          style="
+            text-transform: capitalize; 
+            color: #333;
+        ">Inativo</label>
       </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">{{#if sensor.id}}Atualizar{{else}}Cadastrar{{/if}}</button>
+    <button type="submit" class="btn btn-primary" 
+      style="
+        background-color: #133E34;
+        border: none;
+        color: white;
+        font-weight: 500;
+        border-radius: 10px;
+        padding: 10px 18px;
+      ">
+      {{#if sensor.id}}Atualizar{{else}}Cadastrar{{/if}}
+    </button>
   </form>
 </div>

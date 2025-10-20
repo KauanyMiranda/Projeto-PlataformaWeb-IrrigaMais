@@ -3,25 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login</title>
-<link rel="stylesheet" href="/css/login.css">
-        <script src="https://kit.fontawesome.com/aef00f4de5.js" crossorigin="anonymous"></script>
+    <title>Login - Irriga +</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <script src="https://kit.fontawesome.com/aef00f4de5.js" crossorigin="anonymous"></script>
 
 </head>
 <body>
     <main>
     <div class="container">
-        <img src="/assets/img/Irriga + 1.png" alt="logo do projeto">
+        <img src="/images/logo.png" alt="logo irriga+">
+
         <form action="login.hbs" method="post" enctype="multipart/form-data">
-            <label for="Email">Email</label><br>
-            <i class="fa-solid fa-user"></i><input type="email" placeholder="devserbug@gmail.com"><br>
-            <label for="Senha">Senha</label><br>
-            <i class="fa-solid fa-key"></i><input type="password" id="password" placeholder="Digite a sua senha aqui:"> <br>
-            <label for="Não possui senha?">Não possui senha ainda? 
-                <a href="https://www.youtube.com/@BroCodez" target="_blank">Criar conta</a>
+
+            <div class="input-group">
+                <label for="">Email</label><br>
+                <i class="fa-solid fa-user"></i>
+                <input type="email" name="email" placeholder="devserbug@gmail.com" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="">Senha</label><br>
+                <i class="fa-solid fa-key"></i>
+                <input type="password" id="password" name="senha" placeholder="Senha" required>
+            </div>
+
+            <label for="" class="cadastro-label">
+                Não possui cadastro? 
+                <a href="https://www.youtube.com/@BroCodez" target="_blank">Criar conta...</a>
             </label> <br>           
             <button type="button" class="entrar">Entrar</button>
-
         </form>
     </div>
     </main>
