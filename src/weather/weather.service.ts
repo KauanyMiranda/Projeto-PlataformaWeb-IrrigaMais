@@ -18,9 +18,9 @@ export class WeatherService {
       pais: data.sys.country,
       descricao: data.weather[0].description,
       icone: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
-    temp: Math.round(data.main.temp),
-    temp_max: Math.round(data.main.temp_max),
-    temp_min: Math.round(data.main.temp_min),
+      temp: Math.round(data.main.temp),
+      temp_max: Math.round(data.main.temp_max),
+      temp_min: Math.round(data.main.temp_min),
       umidade: data.main.humidity,
       vento: (data.wind.speed * 3.6).toFixed(1),
     };

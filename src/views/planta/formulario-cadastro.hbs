@@ -1,5 +1,18 @@
-<div class="container mt-5">
-  <h2 class="mb-4">{{#if planta.id}}Editar Planta{{else}}Cadastro de Planta{{/if}}</h2>
+<div class="container" style="
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 25px 35px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
+  margin-top: 40px;
+">
+  <h2 style="
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1a5748;
+    border-bottom: 2px solid #1a5748;
+    padding-bottom: 8px;
+  ">{{#if planta.id}}Editar Planta{{else}}Cadastro de Planta{{/if}}</h2>
 
   {{#if error}}
     <div class="alert alert-danger">{{error}}</div>
@@ -7,57 +20,123 @@
 
   <form method="post" action="{{#if planta.id}}/planta/editar/{{planta.id}}{{else}}/planta/novo/salvar{{/if}}">
     <div class="mb-3">
-      <label for="nome" class="form-label">Nome da Planta</label>
-      <input type="text" name="nome" id="nome" class="form-control" value="{{planta.nome}}" required>
+      <label for="nome" class="form-label" style="font-weight: 600; color: #133E34;">Nome</label>
+      <input type="text" name="nome" id="nome" class="form-control" value="{{planta.nome}}" required
+        style="
+          border-radius: 10px; 
+          border: 1px solid #ccc; 
+          padding: 10px;
+        "
+      >
     </div>
 
     <div class="mb-3">
-      <label for="frequencia" class="form-label">Frequência</label>
-      <select name="frequencia" id="frequencia" class="form-select" required>
-        <option value="">Selecione</option>
-        {{#each frequencias}}
-          <option value="{{this}}" {{ifEquals this ../planta.frequencia}}>{{this}} vez(es)</option>
-        {{/each}}
+      <label for="frequencia" class="form-label" style="font-weight: 600; color: #133E34;">Frequência</label>
+      <select name="frequencia" id="frequencia" class="form-select" required
+        style="
+          border-radius: 10px; 
+          border: 1px solid #ccc; 
+          padding: 10px;
+        "
+      >
+          <option value="">Selecione</option>
+          {{#each frequencias}}
+            <option value="{{this}}" {{ifEquals this ../planta.frequencia}}>{{this}} vez(es)</option>
+          {{/each}}
       </select>
     </div>
 
     <div class="mb-3">
-      <label class="form-label">Dias da irrigação:</label>
-      {{#each diasSemana}}
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="checkbox" name="dias" value="{{this}}" id="{{this}}" {{#if (includes this ../planta.dias)}}checked{{/if}}>
-          <label class="form-check-label" for="{{this}}">{{this}}</label>
-        </div>
-      {{/each}}
-    </div>
-
-    <div class="mb-3">
-      <label for="qtd_agua" class="form-label">Quantidade de Água (ml)</label>
-      <input type="number" name="qtd_agua" id="qtd_agua" class="form-control" value="{{planta.qtd_agua}}" required>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Horários de Irrigação</label>
-      <div id="horarios-container">
-        {{#each (range 1 planta.frequencia)}}
-          <div class="mb-2">
-            <label class="form-label">Horário {{this}}</label>
-            <input type="time" name="horarios[]" class="form-control" value="{{../planta.horarios.[@index]}}" required>
+      <label class="form-label" style="font-weight: 600; color: #133E34;">Dias da irrigação:</label>
+      <div style="
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 10px;
+          ">
+        {{#each diasSemana}}
+          <div class="form-check form-check-inline" 
+              style="
+                display: flex; 
+                align-items: center; 
+                gap: 4px;
+              ">
+            <input 
+              class="form-check-input" 
+              type="checkbox" 
+              name="dias" 
+              value="{{this}}" 
+              id="{{this}}" 
+              {{#if (includes this ../planta.dias)}}checked{{/if}} 
+              style="
+                accent-color: #1A5748;
+              ">
+            <label 
+              class="form-check-label" 
+              for="{{this}}"
+              style="
+                text-transform: capitalize;
+                color: #333;
+              "
+            >{{this}}</label>
           </div>
         {{/each}}
       </div>
     </div>
 
     <div class="mb-3">
-      <label for="sensor" class="form-label">Sensor</label>
-      <select name="sensor" id="sensor" class="form-select" required>
+      <label for="qtd_agua" class="form-label" style="font-weight: 600; color: #133E34;">Quantidade de Água (ml)</label>
+      <input 
+        type="number" name="qtd_agua" id="qtd_agua" class="form-control" value="{{planta.qtd_agua}}" required
+        style="
+          border-radius: 10px; 
+          border: 1px solid #ccc; 
+          padding: 10px;
+        "
+      >
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" style="font-weight: 600; color: #133E34;">Horários de Irrigação</label>
+      <div id="horarios-container">
+        {{#each (range 1 planta.frequencia)}}
+          <div class="mb-2">
+            <label class="form-label" style="color: #333;">Horário {{this}}</label>
+            <input 
+              type="time" name="horarios[]" 
+              class="form-control" 
+              value="{{../planta.horarios.[@index]}}" 
+              style="
+                border-radius: 10px; 
+                border: 1px solid #ccc; 
+                padding: 10px;
+              "
+            required>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="sensor" class="form-label" style="font-weight: 600; color: #133E34;">Sensor</label>
+      <select name="sensor" id="sensor" class="form-select" required
+        style="border-radius: 10px; border: 1px solid #ccc; padding: 10px;"
+      >
         <option value="">Selecione</option>
         <option value="umidade" {{ifEquals "umidade" planta.sensor}}>Umidade</option>
         <option value="chuva" {{ifEquals "chuva" planta.sensor}}>Chuva</option>
       </select>
     </div>
 
-    <button type="submit" class="btn btn-primary">{{#if planta.id}}Atualizar{{else}}Cadastrar{{/if}}</button>
+    <button type="submit" class="btn btn-primary" style="
+        background-color: #133E34;
+        border: none;
+        color: white;
+        font-weight: 500;
+        border-radius: 10px;
+        padding: 10px 18px;
+    ">
+      {{#if planta.id}}Atualizar{{else}}Cadastrar{{/if}}     
+    </button>
   </form>
 </div>
 

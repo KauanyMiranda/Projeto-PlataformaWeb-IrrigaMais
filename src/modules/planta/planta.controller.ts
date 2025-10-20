@@ -31,7 +31,7 @@ export class PlantaController {
 
     return { 
       plantas: plantasFiltradas,
-      search // mantém o termo pesquisado no input
+      search // mantém o termo pesquisado no input 
     };
   }
 
