@@ -8,14 +8,14 @@ export const databaseProviders = [
       const dataSource = new DataSource({
         type: 'mysql',
         host: 'localhost',
-        port: 3360,
+        port: 3306,
         username: 'root',
-        password: 'root',
-        database: 'gestao_facil_bd',
+        password: 'mateus',
+        database: 'irrigaPW2',
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: false,
         logging: false,
-        namingStrategy: new SnakeNamingStrategy(),
+        namingStrategy: new SnakeNamingStrategy(), 
       });
 
       return dataSource.initialize();

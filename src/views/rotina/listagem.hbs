@@ -1,4 +1,4 @@
-<div class="container" style="
+<div class="container" style=" 
   background: #ffffff;
   border-radius: 16px;
   padding: 25px 35px;
@@ -12,7 +12,7 @@
     color: #1a5748;
     border-bottom: 2px solid #1a5748;
     padding-bottom: 8px;
-  ">Plantas</h2>
+  ">Rotinas</h2>
 
   <div style="
     padding-top: 20px;
@@ -21,7 +21,7 @@
     align-items: center;
     flex-wrap: wrap;
   ">
-    <form class="d-flex me-2" method="get" action="/planta/listagem" style="
+    <form class="d-flex me-2" method="get" action="/rotina/listagem" style="
       flex-grow: 1;
       max-width: 500px;
     ">
@@ -29,8 +29,8 @@
         class="form-control me-2"
         type="search"
         name="nome"
-        placeholder="Buscar planta"
-        aria-label="Pesquisar planta"
+        placeholder="Buscar rotina"
+        aria-label="Pesquisar rotina"
         style="
           width: 100%;
           border-radius: 10px;
@@ -55,7 +55,7 @@
       </button>
     </form>
 
-    <a href="/planta/novo" class="btn btn-success" style="
+    <a href="/rotina/novo" class="btn btn-success" style="
       background-color: #3CB371;
       border: none;
       color: #fff;
@@ -86,21 +86,33 @@
     ">
       <tr>
         <th style="padding: 12px;">Nome</th>
-        <th style="padding: 12px;">Necessidade Hídrica</th>
-        <th style="padding: 12px;">Rotina</th>
+        <th style="padding: 12px;">Frequência</th>
+        <th style="padding: 12px;">Dias de Irrigação</th>
+        <th style="padding: 12px;">Horários</th>
+        <th style="padding: 12px;">Tipo de Execução</th>
         <th style="padding: 12px;">Ações</th>
       </tr>
     </thead>
     <tbody>
-      {{#if plantas.length}}
-        {{#each plantas}}
+      {{#if rotinas.length}}
+        {{#each rotinas}}
         <tr style="text-align: center;">
           <td style="padding: 10px;">{{nome}}</td>
-          <td style="padding: 10px;">{{necessidade_hidrica}}</td>
-          <td style="padding: 10px;">{{#if rotina}}{{rotina.nome}}{{else}}Não definida{{/if}}</td>
+          <td style="padding: 10px;">{{frequencia}}x ao dia</td>
+          <td style="padding: 10px;">
+            {{#each dias}}
+              {{this}}{{#unless @last}}, {{/unless}}
+            {{/each}}
+          </td>
+          <td style="padding: 10px;">
+            {{#each horarios}}
+              {{this}}{{#unless @last}}, {{/unless}}
+            {{/each}}
+          </td>
+          <td style="padding: 10px;">{{tipo_execucao}}</td>
           <td>
             <div style="display: flex; justify-content: center; gap: 8px;">
-              <a href="/planta/editar/{{id}}" style="
+              <a href="/rotina/editar/{{id}}" style="
                 background-color: #F5B82E;
                 color: #fff;
                 border: none;
@@ -111,8 +123,8 @@
                 <i class="fa-solid fa-pencil" style="color: #DCE8E3;"></i>
               </a>
 
-              <a href="/planta/excluir/{{id}}" 
-                onclick="return confirm('Tem certeza que deseja excluir esta planta?')" 
+              <a href="/rotina/excluir/{{id}}" 
+                onclick="return confirm('Tem certeza que deseja excluir esta rotina?')" 
                 style="
                   background-color: #E74C3C;
                   color: #fff;
@@ -129,11 +141,11 @@
         {{/each}}
       {{else}}
         <tr>
-          <td colspan="4" class="text-center text-muted" style="
+          <td colspan="6" class="text-center text-muted" style="
             padding: 16px;
             color: #777;
             font-style: italic;
-          ">Nenhuma planta cadastrada!</td>
+          ">Nenhuma rotina cadastrada!</td>
         </tr>
       {{/if}}
     </tbody>

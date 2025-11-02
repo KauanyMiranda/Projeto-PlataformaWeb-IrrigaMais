@@ -6,9 +6,12 @@ import { PlantaModule } from './modules/planta/planta.modules';
 import { LoginModule } from './modules/login/login.modules';
 import { WeatherModule } from './weather/weather.module';
 import { SensorModule } from './modules/sensor/sensor.modules';
+import { RotinaModule } from './modules/rotina/rotina.modules';
+import { DatabaseModule } from './database/database.module';
+
 
 @Module({
-  imports: [PlantaModule, LoginModule, WeatherModule, SensorModule], 
+  imports: [DatabaseModule, PlantaModule, LoginModule, WeatherModule, SensorModule,RotinaModule], 
   controllers: [AppController],
   providers: [AppService],
 })

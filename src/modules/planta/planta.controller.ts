@@ -1,124 +1,73 @@
-import { Body, Controller, Get, Post, Res, Param, Req, Render } from "@nestjs/common";
-import { Request, Response } from "express";
-
-interface Planta {
-  id: number;
-  nome: string;
-  frequencia: string;
-  dias: string[];
-  qtd_agua: string;
-  horarios: string[];
-  sensor: string;
-}
+import { Controller, Get, Post, Body, Param, Res } from '@nestjs/common';
+import { PlantaService } from './planta.service';
+import { Response } from 'express';
 
 @Controller('/planta')
 export class PlantaController {
+  constructor(private readonly plantaService: PlantaService) {}
 
-  private plantas: Planta[] = [];
-
-  // Listagem com pesquisa
-  @Get('/listagem')
-  @Render('planta/listagem')
-  listar(@Req() req: Request) {
-    const search = req.query.nome?.toString().toLowerCase() || '';
-    let plantasFiltradas = this.plantas;
-
-    if (search) {
-      plantasFiltradas = this.plantas.filter(p =>
-        p.nome.toLowerCase().includes(search)
-      );
-    }
-
-    return { 
-      plantas: plantasFiltradas,
-      search // mantém o termo pesquisado no input 
-    };
-  }
-
-  // Formulário de cadastro
   @Get('/novo')
-  formularioCadastro(@Res() res: Response) {
+  async formularioCadastro(@Res() res: Response) {
+    const rotinas = await this.plantaService.listarRotinas();
+    const necessidades = await this.plantaService.listarNecessidades();
+
     return res.render('planta/formulario-cadastro', {
       layout: 'main',
-      title: 'Cadastro de Planta',
-      planta: { nome: '', frequencia: '', dias: [], qtd_agua: '', horarios: [], sensor: '' },
-      frequencias: [1, 2, 3, 4],
-      diasSemana: ["segunda","terca","quarta","quinta","sexta","sabado","domingo"]
+      planta: {},
+      rotinas,
+      necessidades,
     });
   }
 
   @Post('/novo/salvar')
-  formularioCadastroSalvar(@Body() dadosForm: any, @Req() req: Request, @Res() res: Response) {
-    if (!Array.isArray(dadosForm.dias)) dadosForm.dias = [dadosForm.dias];
-    if (!Array.isArray(dadosForm.horarios)) dadosForm.horarios = [dadosForm.horarios];
-
-    const novoId = this.plantas.length > 0 ? this.plantas[this.plantas.length - 1].id + 1 : 1;
-
-    const novaPlanta: Planta = {
-      id: novoId,
+  async salvar(@Body() dadosForm: any, @Res() res: Response) {
+    await this.plantaService.criar({
       nome: dadosForm.nome,
-      frequencia: dadosForm.frequencia,
-      dias: dadosForm.dias,
-      qtd_agua: dadosForm.qtd_agua,
-      horarios: dadosForm.horarios,
-      sensor: dadosForm.sensor
-    };
+      rotinaId: Number(dadosForm.rotina_id),
+      necessidadeId: Number(dadosForm.necessidade_hidrica_id),
+    });
 
-    this.plantas.push(novaPlanta);
-    req.addFlash('success', 'Planta cadastrada com sucesso!');
-    return res.redirect('/planta/listagem'); // redireciona para a listagem
+    return res.redirect('/planta/novo');
   }
+@Get('/listagem')
+async listar(@Res() res: Response) {
+  const plantas = await this.plantaService.listar();
+  return res.render('planta/listagem', {
+    layout: 'main',
+    plantas,
+  });
+}
 
-  // Formulário de edição
   @Get('/editar/:id')
-  editarFormulario(@Param('id') id: string, @Res() res: Response) {
-    const planta = this.plantas.find(p => p.id === Number(id));
+  async editarFormulario(@Param('id') id: string, @Res() res: Response) {
+    const planta = await this.plantaService.buscarPorId(Number(id));
+    if (!planta) return res.redirect('/planta/listagem');
 
-    if (!planta) {
-      return res.render('planta/formulario-cadastro', {
-        layout: 'main',
-        title: 'Editar Planta',
-        planta: { dias: [], horarios: [] },
-        frequencias: [1,2,3,4],
-        diasSemana: ["segunda","terca","quarta","quinta","sexta","sabado","domingo"],
-        error: 'Planta não encontrada'
-      });
-    }
+    const rotinas = await this.plantaService.listarRotinas();
+    const necessidades = await this.plantaService.listarNecessidades();
 
     return res.render('planta/formulario-cadastro', {
       layout: 'main',
       title: 'Editar Planta',
       planta,
-      frequencias: [1,2,3,4],
-      diasSemana: ["segunda","terca","quarta","quinta","sexta","sabado","domingo"]
+      rotinas,
+      necessidades,
     });
   }
 
   @Post('/editar/:id')
-  editarSalvar(@Param('id') id: string, @Body() dadosForm: any, @Res() res: Response) {
-    const plantaIndex = this.plantas.findIndex(p => p.id === Number(id));
-    if (plantaIndex === -1) return res.redirect('/planta/listagem');
-
-    const dias = Array.isArray(dadosForm.dias) ? dadosForm.dias : [dadosForm.dias];
-    const horarios = Array.isArray(dadosForm.horarios) ? dadosForm.horarios : [dadosForm.horarios];
-
-    this.plantas[plantaIndex] = {
-      ...this.plantas[plantaIndex],
+  async editarSalvar(@Param('id') id: string, @Body() dadosForm: any, @Res() res: Response) {
+    await this.plantaService.atualizar(Number(id), {
       nome: dadosForm.nome,
-      frequencia: dadosForm.frequencia,
-      dias,
-      qtd_agua: dadosForm.qtd_agua,
-      horarios,
-      sensor: dadosForm.sensor
-    };
-
+      rotinaId: Number(dadosForm.rotina_id),
+      necessidadeId: Number(dadosForm.necessidade_hidrica_id),
+    });
     return res.redirect('/planta/listagem');
   }
 
-  // Excluir
   @Get('/excluir/:id')
-  excluir(@Param('id') id: string, @Res() res: Response) {
-    this.plantas = this.plantas.filter(p => p.id !== Number(id));
+  async excluir(@Param('id') id: string, @Res() res: Response) {
+    await this.plantaService.excluir(Number(id));
     return res.redirect('/planta/listagem');
   }
 }

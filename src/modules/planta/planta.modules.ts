@@ -1,9 +1,12 @@
-import { Module } from "@nestjs/common";
-import { PlantaController } from "./planta.controller";
+import { Module } from '@nestjs/common';
+import { PlantaService } from './planta.service';
+import { PlantaController } from './planta.controller';
+import { RotinaModule } from '../rotina/rotina.modules';
+import { DatabaseModule } from '../../database/database.module';
 
 @Module({
-    imports: [],
-    controllers: [PlantaController],
-    providers: [],
+  imports: [DatabaseModule, RotinaModule],
+  providers: [PlantaService],
+  controllers: [PlantaController],
 })
 export class PlantaModule {}
