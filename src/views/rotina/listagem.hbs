@@ -12,7 +12,7 @@
     color: #1a5748;
     border-bottom: 2px solid #1a5748;
     padding-bottom: 8px;
-  ">Plantas</h2>
+  ">Rotinas</h2>
 
   <div style="
     padding-top: 20px;
@@ -21,7 +21,7 @@
     align-items: center;
     flex-wrap: wrap;
   ">
-    <form method="get" action="/planta/listagem" style="
+    <form method="get" action="/rotina/listagem" style="
       display: flex;
       align-items: center;
       gap: 10px;
@@ -31,8 +31,8 @@
       <input
         type="search"
         name="nome"
-        placeholder="Buscar planta"
-        aria-label="Pesquisar planta"
+        placeholder="Buscar rotina"
+        aria-label="Pesquisar rotina"
         style="
           flex: 1;
           border-radius: 10px;
@@ -59,7 +59,7 @@
     </form>
 
     
-    <a href="/planta/novo" class="btn btn-success" style="
+    <a href="/rotina/novo" class="btn btn-success" style="
       background-color: #3CB371;
       border: none;
       color: #fff;
@@ -90,11 +90,10 @@
     ">
       <tr>
         <th style="padding: 12px;">Nome</th>
-        <th style="padding: 12px;">Frequência de Irrigação</th>
-        <th style="padding: 12px;">Dias da Irrigação</th>
-        <th style="padding: 12px;">Quantidade de Água (litros)</th>
+        <th style="padding: 12px;">Execução</th>
+        <th style="padding: 12px;">Dias de Irrigação</th>
+        <th style="padding: 12px;">Frequência</th>
         <th style="padding: 12px;">Horários de Irrigação</th>
-        <th style="padding: 12px;">Sensor</th>
         <th style="padding: 12px;">Ações</th> 
       </tr>
     </thead>
@@ -154,76 +153,9 @@
             padding: 16px;
             color: #777;
             font-style: italic;
-          ">Nenhuma planta cadastrada!</td>
+          ">Nenhuma rotina cadastrada!</td>
         </tr>
       {{/if}}
     </tbody>
   </table>
 </div>
-
-
-
-
-{{!-- <div class="container">
-  <h2 class="mb-4">Consultas de plantas</h2>
-
-  <div class="d-flex mb-4">
-    <form class="d-flex me-2" method="get" action="/planta/listagem">
-      <input
-        class="form-control me-2"
-        type="search"
-        name="nome"
-        placeholder="Digite o nome da planta"
-        aria-label="Pesquisar planta"
-      >
-      <button class="btn btn-primary" type="submit">Pesquisar</button>
-    </form>
-
-    <!-- Botão para cadastrar -->
-    <a href="/planta/novo" class="btn btn-success">Cadastrar Planta</a>
-  </div>
-
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Nome da Planta</th>
-        <th>Frequência de Irrigação</th>
-        <th>Dias da Irrigação</th>
-        <th>Quantidade de Água (ml)</th>
-        <th>Horários de Irrigação</th>
-        <th>Sensor</th>
-        <th>Ações</th> 
-      </tr>
-    </thead>
-    <tbody>
-      {{#if plantas.length}}
-        {{#each plantas}}
-        <tr>
-          <td>{{nome}}</td>
-          <td>{{frequencia}} vez(es) ao dia</td>
-          <td>
-            {{#each dias}}
-              {{this}}{{#unless @last}}, {{/unless}}
-            {{/each}}
-          </td>
-          <td>{{qtd_agua}} ml</td>
-          <td>
-            {{#each horarios}}
-              {{this}}{{#unless @last}}, {{/unless}}
-            {{/each}}
-          </td>
-          <td>{{sensor}}</td>
-          <td>
-            <a href="/planta/editar/{{id}}" class="btn btn-sm btn-warning me-2">Editar</a>
-            <a href="/planta/excluir/{{id}}" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir esta planta?')">Excluir</a>
-          </td>
-        </tr>
-        {{/each}}
-      {{else}}
-        <tr>
-          <td colspan="7" class="text-center text-muted">Nenhuma planta cadastrada.</td>
-        </tr>
-      {{/if}}
-    </tbody>
-  </table>
-</div> --}}
