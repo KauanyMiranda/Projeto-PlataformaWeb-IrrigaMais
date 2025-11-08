@@ -10,10 +10,10 @@ export const databaseProviders = [
         host: 'localhost',
         port: 3306,
         username: 'root',
-        password: 'mateus',
+        password: 'root',
         database: 'irrigaPW2',
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-        synchronize: false,
+        synchronize: true,
         logging: false,
         namingStrategy: new SnakeNamingStrategy(), 
       });
