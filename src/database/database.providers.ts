@@ -13,7 +13,7 @@ export const databaseProviders = [
         password: 'root',
         database: 'irrigaPW2',
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-        synchronize: true,
+        synchronize: false,
         logging: false,
         namingStrategy: new SnakeNamingStrategy(), 
       });

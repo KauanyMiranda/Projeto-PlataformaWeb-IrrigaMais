@@ -18,20 +18,23 @@
     <div class="alert alert-danger">{{error}}</div>
   {{/if}}
 
-  <form method="post" action="{{#if sensor.id}}/sensor/editar/{{sensor.id}}{{else}}/sensor/novo/salvar{{/if}}">
+  <form method="post" action="{{#if sensor.id}}/sensor/editar/{{sensor.id}}{{else}}/sensor/novo/salvar{{/if}}" style="
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-grow: 1;
+  ">
     
-    <div class="mb-3">
-      <label for="nomeSensor" class="form-label" style="font-weight: 600; color: #133E34;">Nome</label>
-      <input type="text" name="nome" id="nomeSensor" class="form-control" value="{{sensor.nome}}" required 
+    <label for="nomeSensor" style="font-weight: 600; color: #133E34;">Nome</label>
+      <input type="text" name="nome" id="nomeSensor" value="{{sensor.nome}}" required 
       style="
-        border-radius: 10px; 
-        border: 1px solid #ccc; 
-        padding: 10px;
+        flex: 1;          
+        border-radius: 10px;
+        border: 1px solid #E5E5E5;
+        padding: 10px 14px;
       ">
-    </div>
 
-    <div class="mb-3">
-      <label class="form-label" style="font-weight: 600; color: #133E34;">Tipo de Sensor</label>
+    <label class="form-label" style="font-weight: 600; color: #133E34;">Tipo de Sensor</label>
       <div style="
         display: flex; 
         flex-wrap: wrap; 
@@ -76,7 +79,6 @@
             color: #333;
         ">Chuva</label>
       </div>
-    </div>
 
     <div class="mb-3">
       <label for="localizacaoSensor" class="form-label" style="font-weight: 600; color: #133E34;">Localização do Sensor</label>
