@@ -10,12 +10,14 @@ export class PlantaController {
   async formularioCadastro(@Res() res: Response) {
     const rotinas = await this.plantaService.listarRotinas();
     const necessidades = await this.plantaService.listarNecessidades();
+    const sensores = await this.plantaService.listarSensores();
 
     return res.render('planta/formulario-cadastro', {
       layout: 'main',
       planta: {},
       rotinas,
       necessidades,
+      sensores,
     });
   }
 
@@ -25,18 +27,11 @@ export class PlantaController {
       nome: dadosForm.nome,
       rotinaId: Number(dadosForm.rotina_id),
       necessidadeId: Number(dadosForm.necessidade_hidrica_id),
+      sensorId: Number(dadosForm.sensor_id),
     });
 
     return res.redirect('/planta/novo');
   }
-@Get('/listagem')
-async listar(@Res() res: Response) {
-  const plantas = await this.plantaService.listar();
-  return res.render('planta/listagem', {
-    layout: 'main',
-    plantas,
-  });
-}
 
   @Get('/editar/:id')
   async editarFormulario(@Param('id') id: string, @Res() res: Response) {
@@ -45,13 +40,14 @@ async listar(@Res() res: Response) {
 
     const rotinas = await this.plantaService.listarRotinas();
     const necessidades = await this.plantaService.listarNecessidades();
+    const sensores = await this.plantaService.listarSensores();
 
     return res.render('planta/formulario-cadastro', {
       layout: 'main',
-      title: 'Editar Planta',
       planta,
       rotinas,
       necessidades,
+      sensores,
     });
   }
 
@@ -61,8 +57,19 @@ async listar(@Res() res: Response) {
       nome: dadosForm.nome,
       rotinaId: Number(dadosForm.rotina_id),
       necessidadeId: Number(dadosForm.necessidade_hidrica_id),
+      sensorId: Number(dadosForm.sensor_id),
     });
+
     return res.redirect('/planta/listagem');
+  }
+
+  @Get('/listagem')
+  async listar(@Res() res: Response) {
+    const plantas = await this.plantaService.listar();
+    return res.render('planta/listagem', {
+      layout: 'main',
+      plantas,
+    });
   }
 
   @Get('/excluir/:id')

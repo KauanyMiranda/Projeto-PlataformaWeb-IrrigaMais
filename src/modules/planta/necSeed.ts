@@ -2,17 +2,18 @@ import { DataSource } from 'typeorm';
 import { NecessidadeHidrica } from './necHidrica.entity';
 import { Planta } from './planta.entity';
 import { Rotina } from '../rotina/rotina.entity';
+import { Sensor } from '../sensor/sensor.entity';
+import { TipoSensor } from '../sensor/tipoSensor.entity';
 
 const AppDataSource = new DataSource({
   type: 'mysql',
   host: 'localhost',
   port: 3306,
   username: 'root',
-  password: 'root',
+  password: 'mateus',
   database: 'irrigaPW2',
-  entities: [Planta, NecessidadeHidrica, Rotina],
-  synchronize: true,
-  dropSchema: true,
+  entities: [Planta, Sensor, NecessidadeHidrica, Rotina, TipoSensor],
+  synchronize: false,
 });
 
 

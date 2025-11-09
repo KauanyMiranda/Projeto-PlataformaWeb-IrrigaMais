@@ -68,6 +68,33 @@
         </option>
       {{/each}}
     </select>
+<!-- Combobox Sensor -->
+<label 
+  for="sensor" 
+  style="
+    font-weight: 600; 
+    color: #133E34;
+  "
+>Sensor</label>
+
+<select 
+  name="sensor_id" 
+  id="sensor" 
+  required
+  style="
+    width: 100%;
+    border-radius: 10px; 
+    border: 1px solid #E5E5E5; 
+    padding: 10px;
+  "
+>
+  <option value="">Selecione</option>
+  {{#each sensores}}
+    <option value="{{this.id}}" {{#ifEquals this.id ../planta.sensor?.id}}selected{{/ifEquals}}>
+      {{this.nome}} ({{this.tipoSensor.nome}})
+    </option>
+  {{/each}}
+</select>
 
     <label 
       for="rotina" 

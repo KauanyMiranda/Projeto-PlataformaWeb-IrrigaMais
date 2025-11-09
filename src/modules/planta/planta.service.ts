@@ -3,21 +3,24 @@ import { Repository, DataSource } from 'typeorm';
 import { Planta } from './planta.entity';
 import { Rotina } from '../rotina/rotina.entity';
 import { NecessidadeHidrica } from './necHidrica.entity';
+import { Sensor } from '../sensor/sensor.entity';
 
 @Injectable()
 export class PlantaService {
   private plantaRepo: Repository<Planta>;
   private rotinaRepo: Repository<Rotina>;
   private necessidadeRepo: Repository<NecessidadeHidrica>;
+  private sensorRepo: Repository<Sensor>;
 
   constructor(@Inject('DATA_SOURCE') private dataSource: DataSource) {
     this.plantaRepo = this.dataSource.getRepository(Planta);
     this.rotinaRepo = this.dataSource.getRepository(Rotina);
     this.necessidadeRepo = this.dataSource.getRepository(NecessidadeHidrica);
+    this.sensorRepo = this.dataSource.getRepository(Sensor);
   }
 
   async listar(): Promise<Planta[]> {
-    return this.plantaRepo.find({ relations: ['rotina', 'necessidade_hidrica'] });
+    return this.plantaRepo.find({ relations: ['rotina', 'necessidade_hidrica', 'sensor', 'sensor.tipoSensor'] });
   }
 
   async listarRotinas(): Promise<Rotina[]> {
@@ -28,16 +31,22 @@ export class PlantaService {
     return this.necessidadeRepo.find();
   }
 
-  async criar(dados: { nome: string; rotinaId: number; necessidadeId: number }) {
+  async listarSensores(): Promise<Sensor[]> {
+    return this.sensorRepo.find({ relations: ['tipoSensor'] });
+  }
+
+  async criar(dados: { nome: string; rotinaId: number; necessidadeId: number; sensorId: number }) {
     const rotina = await this.rotinaRepo.findOne({ where: { id: dados.rotinaId } });
     const necessidade = await this.necessidadeRepo.findOne({ where: { id: dados.necessidadeId } });
+    const sensor = await this.sensorRepo.findOne({ where: { id: dados.sensorId } });
 
-    if (!rotina || !necessidade) throw new Error('Rotina ou Necessidade hídrica não encontrada');
+    if (!rotina || !necessidade || !sensor) throw new Error('Rotina, Necessidade ou Sensor não encontrados');
 
     const planta = this.plantaRepo.create({
       nome: dados.nome,
       rotina,
       necessidade_hidrica: necessidade,
+      sensor,
     });
 
     return this.plantaRepo.save(planta);
@@ -46,23 +55,25 @@ export class PlantaService {
   async buscarPorId(id: number): Promise<Planta | null> {
     return this.plantaRepo.findOne({ 
       where: { id }, 
-      relations: ['rotina', 'necessidade_hidrica'] 
+      relations: ['rotina', 'necessidade_hidrica', 'sensor', 'sensor.tipoSensor'] 
     });
   }
 
   async atualizar(
     id: number,
-    dados: { nome: string; rotinaId: number; necessidadeId: number }
+    dados: { nome: string; rotinaId: number; necessidadeId: number; sensorId: number }
   ): Promise<Planta> {
     const rotina = await this.rotinaRepo.findOne({ where: { id: dados.rotinaId } });
     const necessidade = await this.necessidadeRepo.findOne({ where: { id: dados.necessidadeId } });
+    const sensor = await this.sensorRepo.findOne({ where: { id: dados.sensorId } });
 
-    if (!rotina || !necessidade) throw new Error('Rotina ou Necessidade hídrica não encontrada');
+    if (!rotina || !necessidade || !sensor) throw new Error('Rotina, Necessidade ou Sensor não encontrados');
 
     await this.plantaRepo.update(id, {
       nome: dados.nome,
       rotina,
       necessidade_hidrica: necessidade,
+      sensor,
     });
 
     return this.buscarPorId(id) as Promise<Planta>;

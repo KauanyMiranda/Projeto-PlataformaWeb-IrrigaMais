@@ -18,89 +18,39 @@
     <div class="alert alert-danger">{{error}}</div>
   {{/if}}
 
-  <form method="post" action="{{#if sensor.id}}/sensor/editar/{{sensor.id}}{{else}}/sensor/novo/salvar{{/if}}" style="
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    flex-grow: 1;
-  ">
-    
-    <label for="nomeSensor" style="font-weight: 600; color: #133E34;">Nome</label>
-      <input type="text" name="nome" id="nomeSensor" value="{{sensor.nome}}" required 
-      style="
-        flex: 1;          
-        border-radius: 10px;
-        border: 1px solid #E5E5E5;
-        padding: 10px 14px;
-      ">
+  <form method="post" action="{{#if sensor.id}}/sensor/editar/{{sensor.id}}{{else}}/sensor/novo/salvar{{/if}}">
 
-    <label class="form-label" style="font-weight: 600; color: #133E34;">Tipo de Sensor</label>
-      <div style="
-        display: flex; 
-        flex-wrap: wrap; 
-        gap: 10px;
-      ">
-        <input 
-          class="form-check-input" 
-          type="radio" 
-          name="tipo" 
-          id="umidade" 
-          value="umidade" {{#if (ifEquals sensor.tipo "umidade")}}checked{{/if}} required
-          style="
-            accent-color: #1A5748;
-        ">
-        <label 
-          class="form-check-label" 
-          for="umidade" 
-          style="
-            text-transform: capitalize; 
-            color: #333;
-        ">Umidade</label>
-      </div>
-      <div style="
-        display: flex; 
-        flex-wrap: wrap; 
-        gap: 10px;
-      ">
-        <input 
-          class="form-check-input" 
-          type="radio" 
-          name="tipo" 
-          id="chuva" 
-          value="chuva" {{#if (ifEquals sensor.tipo "chuva")}}checked{{/if}} required
-          style="
-          accent-color: #1A5748;
-        ">
-        <label 
-          class="form-check-label" 
-          for="chuva"
-          style="
-            text-transform: capitalize; 
-            color: #333;
-        ">Chuva</label>
-      </div>
-
+    <!-- Nome do Sensor -->
     <div class="mb-3">
-      <label for="localizacaoSensor" class="form-label" style="font-weight: 600; color: #133E34;">Localização do Sensor</label>
-      <input 
-        type="text" 
-        name="localizacao" 
-        id="localizacaoSensor"
-        class="form-control" 
-        value="{{sensor.localizacao}}" 
-        placeholder="Ex: Horta" 
-        style="
-          border-radius: 10px; 
-          border: 1px solid #ccc; 
-          padding: 10px;
-      ">
+      <label for="nomeSensor" class="form-label" style="font-weight: 600; color: #133E34;">Nome</label>
+      <input type="text" name="nome" id="nomeSensor" class="form-control" value="{{sensor.nome}}" required 
+      style="border-radius: 10px; border: 1px solid #ccc; padding: 10px;">
     </div>
 
-    <div style="
-      display: flex; 
-      flex-wrap: wrap; 
-      gap: 10px;
-    ">
+    <!-- Tipo de Sensor (Combobox Dinâmica) -->
+    <div class="mb-3">
+      <label for="tipo_sensor" class="form-label" style="font-weight: 600; color: #133E34;">Tipo de Sensor</label>
+      <select name="tipo_sensor_id" id="tipo_sensor" class="form-select" required>
+        <option value="">Selecione</option>
+        {{#each tiposSensores}}
+          <option value="{{this.id}}" 
+            {{#ifEquals this.id ../sensor.tipoSensor?.id}}selected{{/ifEquals}}>
+            {{this.nome}} ({{this.unidade_medida}})
+          </option>
+        {{/each}}
+      </select>
+    </div>
+
+    <!-- Localização do Sensor -->
+    <div class="mb-3">
+      <label for="localizacaoSensor" class="form-label" style="font-weight: 600; color: #133E34;">Localização do Sensor</label>
+      <input type="text" name="localizacao" id="localizacaoSensor" class="form-control" 
+        value="{{sensor.localizacao}}" placeholder="Ex: Horta" 
+        style="border-radius: 10px; border: 1px solid #ccc; padding: 10px;">
+    </div>
+
+    <!-- Status (booleano) -->
+    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
       <label class="form-label" style="font-weight: 600; color: #133E34;">Status:</label>
       <div class="form-check">
         <input 
@@ -108,17 +58,11 @@
           type="radio" 
           name="status" 
           id="ativo" 
-          value="ativo" {{#if (ifEquals sensor.status "ativo")}}checked{{/if}} required 
-          style="
-          accent-color: #1A5748;
-        ">
-        <label 
-          class="form-check-label" 
-          for="ativo" 
-          style="
-            text-transform: capitalize; 
-            color: #333;
-        ">Ativo</label>
+          value="true" 
+          {{#if sensor.status}}checked{{/if}} 
+          required 
+          style="accent-color: #1A5748;">
+        <label class="form-check-label" for="ativo" style="text-transform: capitalize; color: #333;">Ativo</label>
       </div>
       <div class="form-check">
         <input  
@@ -126,29 +70,16 @@
           type="radio" 
           name="status" 
           id="inativo" 
-          value="inativo" {{#if (ifEquals sensor.status "inativo")}}checked{{/if}} required
-          style="
-          accent-color: #1A5748;
-        ">
-        <label 
-          class="form-check-label" 
-          for="inativo" 
-          style="
-            text-transform: capitalize; 
-            color: #333;
-        ">Inativo</label>
+          value="false" 
+          {{#unless sensor.status}}checked{{/unless}} 
+          required
+          style="accent-color: #1A5748;">
+        <label class="form-check-label" for="inativo" style="text-transform: capitalize; color: #333;">Inativo</label>
       </div>
     </div>
 
     <button type="submit" class="btn btn-primary" 
-      style="
-        background-color: #133E34;
-        border: none;
-        color: white;
-        font-weight: 500;
-        border-radius: 10px;
-        padding: 10px 18px;
-      ">
+      style="background-color: #133E34; border: none; color: white; font-weight: 500; border-radius: 10px; padding: 10px 18px;">
       {{#if sensor.id}}Atualizar{{else}}Cadastrar{{/if}}
     </button>
   </form>

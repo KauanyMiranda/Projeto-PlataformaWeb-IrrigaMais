@@ -1,9 +1,12 @@
-import { Module } from "@nestjs/common";
-import { SensorController } from "./sensor.controller";
+import { Module } from '@nestjs/common';
+import { SensorService } from './sensor.service';
+import { SensorController } from './sensor.controller';
+import { DatabaseModule } from '../../database/database.module';
 
 @Module({
-    imports: [],
-    controllers: [SensorController],
-    providers: [],
+  imports: [DatabaseModule],
+  controllers: [SensorController],
+  providers: [SensorService],
+  exports: [SensorService],
 })
 export class SensorModule {}
