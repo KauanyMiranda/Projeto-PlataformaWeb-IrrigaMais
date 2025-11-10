@@ -4,7 +4,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class WeatherService {
-  private readonly apiKey = 'b530897f08b4433bc6736eafe8867095';
+  private readonly apiKey = 'b530897f08b4433bc6736eafe8867095'
 
   constructor(private readonly httpService: HttpService) {}
 

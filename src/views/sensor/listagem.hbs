@@ -6,7 +6,7 @@
   </div>
 {{/if}}
 
-<div class="container" style="
+<div style="
     background: #ffffff;
     border-radius: 16px;
     padding: 25px 35px;
@@ -29,9 +29,12 @@
         align-items: center;
         flex-wrap: wrap;
     ">
-        <form class="d-flex me-2" method="get" action="/sensor" style="
+        <form method="get" action="/sensor" style="
+            display: flex;
+            align-items: center;
+            gap: 10px;
             flex-grow: 1;
-            max-width: 500px;
+            max-width: 500px
         ">
             <input class="form-control me-2"
                 type="search"
@@ -68,6 +71,7 @@
             font-weight: 500;
             padding: 8px 18px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
         ">
             Novo
             <i class="fa-solid fa-square-plus" style="color: #DCE8E3;"></i>
@@ -108,8 +112,8 @@
                           {{#if status}}Ativo{{else}}Inativo{{/if}}
                         </td>
                         <td>
-                            <div>
-                                <a href="/sensor/editar/{{id}}" style="
+                            <div style="display: flex; justify-content: center; gap: 8px;">
+                                <a "/sensor/editar/{{id}}" style="
                                     background-color: #F5B82E;
                                     color: #fff;
                                     border: none;
@@ -119,18 +123,20 @@
                                 ">
                                     <i class="fa-solid fa-pencil" style="color: #DCE8E3;"></i>
                                 </a>
-                                <a href="/sensor/excluir/{{id}}" class="btn btn-sm btn-danger"
-                                    onclick="return confirm('Tem certeza que deseja excluir este sensor?')" style="
+
+                                <a href="/sensor/excluir/{{id}}" 
+                                    onclick="return confirm('Tem certeza que deseja excluir esta rotina?')" 
+                                    style="
                                     background-color: #E74C3C;
                                     color: #fff;
                                     border: none;
                                     font-weight: 500;
                                     border-radius: 6px;
                                     padding: 4px 10px;
-                                 ">
+                                    ">
                                     <i class="fa-solid fa-trash-can" style="color: #DCE8E3;"></i>
                                 </a>
-                            </div>          
+                            </div>                                     
                         </td>
                     </tr>
                 {{/each}}

@@ -35,6 +35,15 @@ export class PlantaService {
     return this.sensorRepo.find({ relations: ['tipoSensor'] });
   }
 
+    async listarUltimas(limit: number) {
+    return await this.plantaRepo.find({
+      order: { id: 'DESC' },
+      take: limit,
+      relations: ['rotina', 'necessidade_hidrica', 'sensor'],
+    });
+  }
+
+
   async criar(dados: { nome: string; rotinaId: number; necessidadeId: number; sensorId: number }) {
     const rotina = await this.rotinaRepo.findOne({ where: { id: dados.rotinaId } });
     const necessidade = await this.necessidadeRepo.findOne({ where: { id: dados.necessidadeId } });
