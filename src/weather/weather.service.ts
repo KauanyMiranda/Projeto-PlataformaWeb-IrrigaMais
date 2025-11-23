@@ -49,6 +49,7 @@ export class WeatherService {
           temp: Math.round(item.main.temp),
           temp_min: Math.round(item.main.temp_min),
           temp_max: Math.round(item.main.temp_max),
+          porcent_chuva: Math.round(item.pop * 100), // <- porcentagem de chuva aqui!
         };
       });
 
