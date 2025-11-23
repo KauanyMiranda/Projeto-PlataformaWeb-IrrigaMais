@@ -13,6 +13,8 @@ import { helpers } from './common/helpers/hbs-functions';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+  app.enableCors();
+
   const hbs = exphbs.create({
     extname: '.hbs',
     layoutsDir: join(__dirname, '..', 'src/views/_layouts'),
@@ -39,7 +41,6 @@ async function bootstrap() {
   );
 
   app.useGlobalFilters(new NotFoundExceptionFilter());
-
   const port = process.env.PORT || 3333;
   await app.listen(port, () =>
     Logger.log(`Server running on port ${port}`, 'Bootstrap'),

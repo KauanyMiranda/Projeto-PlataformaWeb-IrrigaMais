@@ -8,10 +8,22 @@ import { WeatherModule } from './weather/weather.module';
 import { SensorModule } from './modules/sensor/sensor.modules';
 import { RotinaModule } from './modules/rotina/rotina.modules';
 import { DatabaseModule } from './database/database.module';
-
+import { LeituraModule } from './modules/leitura/leitura.module';
+import { IrrigacaoModule } from './modules/irrigacao/irrigacao.module';
+import { EspModule } from './modules/esp/esp.module';
 
 @Module({
-  imports: [DatabaseModule, PlantaModule, LoginModule, WeatherModule, SensorModule,RotinaModule], 
+  imports: [
+    DatabaseModule, 
+    PlantaModule, 
+    LoginModule, 
+    WeatherModule, 
+    SensorModule,
+    RotinaModule,
+    LeituraModule,
+    IrrigacaoModule,
+    EspModule
+  ], 
   controllers: [AppController],
   providers: [AppService],
 })

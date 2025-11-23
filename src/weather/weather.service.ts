@@ -10,7 +10,6 @@ export class WeatherService {
 
    async getWeather(lat: number, lon: number) {
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric&lang=pt_br`;
-
     const { data } = await firstValueFrom(this.httpService.get(url));
 
     return {
@@ -23,6 +22,7 @@ export class WeatherService {
       temp_min: Math.round(data.main.temp_min),
       umidade: data.main.humidity,
       vento: (data.wind.speed * 3.6).toFixed(1),
+      
     };
   }
 }
