@@ -1,6 +1,4 @@
 import { Controller, Get, Render, Query } from '@nestjs/common';
-import { AppService } from "./app.service"
-import { title } from 'process';
 import { WeatherService } from './weather/weather.service';
 import { PlantaService } from './modules/planta/planta.service';
 
@@ -13,18 +11,25 @@ export class AppController {
 
   @Get()
   @Render('home')
-  async home(@Query('lat') lat?: string, @Query('lon') lon?: string) {
-    const latitude = lat ? parseFloat(lat) : -10.8753;
-    const longitude = lon ? parseFloat(lon) : -61.9521;
+  async home() {
+    const latitude = -10.8777;
+    const longitude = -61.9326;
 
     const clima = await this.weatherService.getWeather(latitude, longitude);
+
+    (clima as any).cidade = "Ji-Paraná";
+(clima as any).estado = "RO";
+(clima as any).pais = "Brasil";
+
+    const previsao = await this.weatherService.getForecast(latitude, longitude);
 
     const ultimasPlantas = await this.plantaService.listarUltimas(3);
 
     return {
       title: 'Início - Irriga+',
       clima,
-      ultimasPlantas,
+      previsao,
+      ultimasPlantas
     };
   }
 }
