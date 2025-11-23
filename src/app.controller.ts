@@ -1,6 +1,7 @@
 import { Controller, Get, Render, Query } from '@nestjs/common';
 import { WeatherService } from './weather/weather.service';
 import { PlantaService } from './modules/planta/planta.service';
+import { Previsao } from './weather/weather.service';
 
 @Controller()
 export class AppController {

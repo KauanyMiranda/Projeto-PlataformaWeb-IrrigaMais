@@ -114,66 +114,67 @@
         </div>
       </div>
     </div>
-  <!-- 🌤️ PREVISÃO DO TEMPO -->
-  {{#if previsao}}
-  <div style="
-    background:#fff;
-    margin-top:20px;
-    padding:16px 20px;
-    border-radius:14px;
-    box-shadow:0 3px 10px rgba(0,0,0,0.10);
-    width:100%;
+ <!-- 🌤️ PREVISÃO DO TEMPO -->
+{{#if previsao}}
+<div style="
+  background:#fff;
+  margin-top:20px;
+  padding:16px 20px;
+  border-radius:14px;
+  box-shadow:0 3px 10px rgba(0,0,0,0.10);
+  width:100%;
+">
+  <h3 style="
+    color:#133E34; 
+    margin-bottom:14px; 
+    font-size:1.2rem; 
+    font-weight:700;
   ">
-    <h3 style="
-      color:#133E34; 
-      margin-bottom:14px; 
-      font-size:1.2rem; 
-      font-weight:700;
-    ">
-      Previsão para os próximos dias
-    </h3>
+    Previsão para os próximos dias
+  </h3>
 
-    <div style="
-      display:flex; 
-      gap:14px; 
-      overflow-x:auto; 
-      padding-bottom:8px;
-    ">
-      {{#each previsao}}
-        <div style="
-          min-width:140px;
-          background:#f3faf6;
-          border-radius:12px;
-          padding:14px 10px;
-          text-align:center;
-          box-shadow:0 1px 4px rgba(0,0,0,0.08);
-        ">
-          <p style="font-size:0.9rem; font-weight:700; color:#1a4d42;">
-            {{this.diaSemana}}
-          </p>
+  <div style="
+    display:flex; 
+    gap:14px; 
+    overflow-x:auto; 
+    padding-bottom:8px;
+  ">
+    {{#each previsao}}
+      <div style="
+        min-width:140px;
+        background:#f3faf6;
+        border-radius:12px;
+        padding:14px 10px;
+        text-align:center;
+        box-shadow:0 1px 4px rgba(0,0,0,0.08);
+      ">
+        <p style="font-size:0.9rem; font-weight:700; color:#1a4d42;">
+          {{this.diaSemana}}
+        </p>
 
-          <p style="font-size:0.85rem; font-weight:600; color:#3a6f62; margin-top:-4px;">
-            {{this.dataFormatada}}
-          </p>
+        <p style="font-size:0.85rem; font-weight:600; color:#3a6f62; margin-top:-4px;">
+          {{this.dataFormatada}}
+        </p>
 
-          <img src="{{this.icone}}" style="width:55px; margin:6px 0;">
+        <img src="{{this.icone}}" style="width:55px; margin:6px 0;">
 
-          <p style="font-size:0.85rem; color:#4a4a4a; margin-top:4px;">
-            {{this.porcent_chuva}}
-          </p>
+        <p style="font-size:0.85rem; color:#0077b6; margin-top:4px;">
+          ☔ {{this.porcent_chuva}}%
+        </p>
 
-          <p style="font-size:1.1rem; font-weight:700; color:#133E34;">
-            {{this.temp}}°C
-          </p>
+        <p style="font-size:1.1rem; font-weight:700; color:#133E34;">
+          {{this.temp}}°C
+        </p>
 
-          <p style="font-size:0.85rem; color:#4a4a4a; margin-top:4px;">
-            {{this.descricao}}
-          </p>
-        </div>
-      {{/each}}
-    </div>
+        <p style="font-size:0.85rem; color:#4a4a4a; margin-top:4px;">
+          {{this.descricao}}
+        </p>
+      </div>
+    {{/each}}
   </div>
-  {{/if}}
+</div>
+{{/if}}
+
 
     <!-- 🌦️ CLIMA -->
     <div id="container">

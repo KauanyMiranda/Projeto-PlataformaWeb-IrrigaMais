@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { WeatherService } from './weather.service';
+import { Previsao } from './weather.service';
 
 @Controller('weather')
 export class WeatherController {
