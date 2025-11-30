@@ -22,4 +22,12 @@ export const helpers = {
 },
 
   dec: (value: number) => value - 1,
+    getError: (errors: any[], key: string) => {
+    const errorObj = errors?.find((i) => i.property == key);
+    return errorObj ? errorObj.message : null;
+  },
+  getValue: (old: string, defaultValue: string) => {
+    return old || defaultValue;
+  },
 };
+

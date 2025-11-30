@@ -1,101 +1,136 @@
-import { Body, Controller, Get, Render, Post, Param, Req, Res, Query } from "@nestjs/common";
-import { Request, Response } from "express";
-import { SensorService } from "./sensor.service";
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, Res, Render } from '@nestjs/common';
+import { Request, Response } from 'express';
+import { validate } from 'src/common/validator/generic.validator';
+import { SensorService } from './sensor.service';
+import { TipoSensorService } from './tipoSensor.service';
+import { SensorDto } from './sensor.dto';
 
 @Controller('/sensor')
 export class SensorController {
-  constructor(private readonly sensorService: SensorService) {}
+  constructor(
+    private readonly sensorService: SensorService,
+    private readonly tipoSensorService: TipoSensorService
+  ) {}
 
-  // Listagem e pesquisa
-  @Get()
   @Get('/listagem')
   @Render('sensor/listagem')
-  async consulta(@Query('nome') nome?: string) {
-    let sensores = await this.sensorService.listar();
-
-    if (nome) {
-      sensores = sensores.filter(sensor =>
-        sensor.nome.toLowerCase().includes(nome.toLowerCase())
-      );
-    }
-
+  async listagem() {
+    const sensores = await this.sensorService.listar();
     return { sensores };
   }
 
-  // Formulário de cadastro
   @Get('/novo')
   @Render('sensor/formulario-cadastro')
   async formularioCadastro() {
-    const tiposSensores = await this.sensorService.listarTipos();
-    return {
-      sensor: { nome: '', localizacao: '', status: true, tipoSensor: null },
-      tiposSensores,
-    };
+    const tiposSensores = await this.tipoSensorService.getAll();
+    return { sensor: {}, tiposSensores };
   }
 
-  // Salvar novo sensor
   @Post('/novo/salvar')
-  async formularioCadastroSalvar(@Body() dadosForm: any, @Req() req: Request, @Res() res: Response) {
-    try {
-      await this.sensorService.criar({
-        nome: dadosForm.nome,
-        localizacao: dadosForm.localizacao || '',
-        tipoSensorId: Number(dadosForm.tipo_sensor_id),
-        status: dadosForm.status === 'true', // converte string para boolean
-      });
+  async cadastroSalvar(@Body() dadosForm: any, @Req() req: Request, @Res() res: Response) {
+    const resultado = await validate(SensorDto, {
+      nome: dadosForm.nome,
+      localizacao: dadosForm.localizacao,
+      status: dadosForm.status === 'true',
+      tipoSensorId: Number(dadosForm.tipo_sensor_id),
+    });
 
-      req.addFlash('success', 'Sensor cadastrado com sucesso!');
-      return res.redirect('/sensor');
-    } catch (error) {
-      const tiposSensores = await this.sensorService.listarTipos();
-      return res.render('sensor/formulario-cadastro', {
-        error: error.message,
-        sensor: dadosForm,
-        tiposSensores,
-      });
+    if (resultado.isError) {
+      req.addFlash('error', resultado.getErrors);
+      req.setOld(dadosForm);
+      return res.redirect('/sensor/novo');
     }
+
+    await this.sensorService.criar({
+      nome: dadosForm.nome,
+      localizacao: dadosForm.localizacao,
+      status: dadosForm.status === 'true',
+      tipoSensorId: Number(dadosForm.tipo_sensor_id),
+    });
+
+    req.addFlash('success', 'Sensor cadastrado com sucesso!');
+    return res.redirect('/sensor/listagem');
   }
 
-  // Formulário de edição
-  @Get('/editar/:id')
-  @Render('sensor/formulario-cadastro')
-  async editarFormulario(@Param('id') id: string) {
-    const sensor = await this.sensorService.buscarPorId(Number(id));
+  @Get('/:id/atualizacao')
+  @Render('sensor/formulario-atualizacao')
+  async formularioAtualizacao(
+    @Param('id') id: number,
+    @Req() req: Request,
+    @Res() res: Response
+  ) {
+    const sensor = await this.sensorService.buscarPorId(id);
+
     if (!sensor) {
-      return { sensor: {}, tiposSensores: await this.sensorService.listarTipos(), error: 'Sensor não encontrado' };
+      req.addFlash('error', 'Sensor não encontrado!');
+      return res.redirect('/sensor/listagem');
     }
 
-    const tiposSensores = await this.sensorService.listarTipos();
+    const tiposSensores = await this.tipoSensorService.getAll();
+
     return { sensor, tiposSensores };
   }
 
-  // Salvar edição
-  @Post('/editar/:id')
-  async editarSalvar(@Param('id') id: string, @Body() dadosForm: any, @Res() res: Response) {
-    try {
-      await this.sensorService.atualizar(Number(id), {
-        nome: dadosForm.nome,
-        localizacao: dadosForm.localizacao || '',
-        tipoSensorId: Number(dadosForm.tipo_sensor_id),
-        status: dadosForm.status === 'true',
-      });
+  @Put('/:id/atualizacao-salvar')
+  async atualizacaoSalvar(
+    @Param('id') id: number,
+    @Body() dados: any,
+    @Req() req: Request,
+    @Res() res: Response
+  ) {
+    const sensor = await this.sensorService.buscarPorId(id);
 
-      return res.redirect('/sensor');
-    } catch (error) {
-      const sensor = await this.sensorService.buscarPorId(Number(id));
-      const tiposSensores = await this.sensorService.listarTipos();
-      return res.render('sensor/formulario-cadastro', {
-        error: error.message,
-        sensor: { ...sensor, ...dadosForm },
-        tiposSensores,
-      });
+    if (!sensor) {
+      req.addFlash('error', 'Sensor não encontrado!');
+      return res.redirect('/sensor/listagem');
     }
+
+    dados.tipoSensorId = Number(dados.tipoSensorId);
+    dados.status = dados.status === 'true';
+
+    const resultado = await validate(SensorDto, dados);
+
+    if (resultado.isError) {
+      req.addFlash('error', resultado.getErrors);
+      req.setOld(dados);
+      return res.redirect(`/sensor/${id}/atualizacao`);
+    }
+
+    await this.sensorService.atualizar(id, {
+      nome: dados.nome,
+      localizacao: dados.localizacao,
+      tipoSensorId: dados.tipoSensorId,
+      status: dados.status,
+    });
+
+    req.addFlash('success', 'Sensor atualizado com sucesso!');
+    return res.redirect('/sensor/listagem');
   }
 
-  // Excluir
-  @Get('/excluir/:id')
-  async excluir(@Param('id') id: string, @Res() res: Response) {
-    await this.sensorService.excluir(Number(id));
-    return res.redirect('/sensor');
+  @Get('/:id/exclusao')
+  @Render('sensor/formulario-exclusao')
+  async formularioExclusao(@Param('id') id: number, @Req() req: Request, @Res() res: Response) {
+    const sensor = await this.sensorService.buscarPorId(id);
+
+    if (!sensor) {
+      req.addFlash('error', 'Sensor não encontrado!');
+      return res.redirect('/sensor/listagem');
+    }
+
+    return { sensor };
+  }
+
+  @Delete('/:id/exclusao')
+  async excluir(@Param('id') id: number, @Req() req: Request, @Res() res: Response) {
+    const sensor = await this.sensorService.buscarPorId(id);
+
+    if (!sensor) {
+      req.addFlash('error', 'Sensor não encontrado!');
+    } else {
+      await this.sensorService.excluir(id);
+      req.addFlash('success', `Sensor ${sensor.nome} excluído com sucesso!`);
+    }
+
+    return res.redirect('/sensor/listagem');
   }
 }

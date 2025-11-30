@@ -7,7 +7,7 @@ const AppDataSource = new DataSource({
   host: 'localhost',
   port: 3306,
   username: 'root',
-  password: 'root',
+  password: 'mateus',
   database: 'irrigaPW2',
   entities: [TipoSensor, Sensor],
   synchronize: false, 

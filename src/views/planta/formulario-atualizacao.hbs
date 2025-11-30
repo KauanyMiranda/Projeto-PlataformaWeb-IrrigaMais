@@ -1,0 +1,81 @@
+<div class="container" style="
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 25px 35px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
+  margin-top: 40px;
+">
+  <h2 style="font-size: 1.8rem; font-weight: 700; color: #1a5748; border-bottom: 2px solid #1a5748; padding-bottom: 8px;">
+    Atualização de Planta
+  </h2>
+
+  {{#if error}}
+    <div class="alert alert-danger" style="margin-top: 20px; padding: 10px; background-color: #f8d7da; color: #721c24; border-radius: 8px;">
+      {{#each error}}
+        <p class="p-0 m-0">{{this}}</p>
+      {{/each}}
+    </div>
+  {{/if}}
+
+  <form method="post" action="/planta/{{planta.id}}/atualizacao-salvar?_method=put" style="margin-top: 30px; display:flex; flex-direction:column; gap:15px;">
+    <!-- Nome da Planta -->
+    <div>
+      <label for="nome" style="font-weight:500;">Nome da Planta</label>
+      <input type="text" name="nome" id="nome" value="{{getValue old.nome planta.nome}}" style="width:100%; padding:10px; border-radius:10px; border:1px solid #E5E5E5;">
+    </div>
+
+    <!-- Selects -->
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+      <!-- Necessidade Hídrica -->
+      <div style="flex:1; min-width:150px;">
+        <label for="necessidade_hidrica" style="font-weight:500;">Necessidade Hídrica</label>
+        <select name="necessidade_hidrica_id" id="necessidade_hidrica" style="width:100%; padding:10px; border-radius:10px; border:1px solid #E5E5E5;">
+          <option value="">Selecione</option>
+          {{#each necessidades}}
+            <option value="{{this.id}}" {{selected-option this.id ../planta.necessidade_hidrica.id ../old.necessidade_hidrica_id}}>
+              {{this.nome}} ({{this.qtdLitro}} L)
+            </option>
+          {{/each}}
+        </select>
+      </div>
+
+      <!-- Sensor -->
+      <div style="flex:1; min-width:150px;">
+        <label for="sensor" style="font-weight:500;">Sensor</label>
+        <select name="sensor_id" id="sensor" style="width:100%; padding:10px; border-radius:10px; border:1px solid #E5E5E5;">
+          <option value="">Selecione</option>
+          {{#each sensores}}
+            <option value="{{this.id}}" {{selected-option this.id ../planta.sensor.id ../old.sensor_id}}>
+              {{this.nome}} ({{this.tipoSensor.nome}})
+            </option>
+          {{/each}}
+        </select>
+      </div>
+
+      <!-- Rotina -->
+      <div style="flex:1; min-width:150px;">
+        <label for="rotina" style="font-weight:500;">Rotina</label>
+        <select name="rotina_id" id="rotina" style="width:100%; padding:10px; border-radius:10px; border:1px solid #E5E5E5;">
+          <option value="">Selecione</option>
+          {{#each rotinas}}
+            <option value="{{this.id}}" {{selected-option this.id ../planta.rotina.id ../old.rotina_id}}>
+              {{this.nome}}
+            </option>
+          {{/each}}
+        </select>
+      </div>
+    </div>
+
+    <!-- Botões -->
+    <div style="display:flex; justify-content:center; gap:20px; margin-top:30px;">
+      <a href="/planta/listagem" style="background-color:#CDE3DC; border:none; color:#133E34; font-weight:500; border-radius:10px; padding:10px 18px; text-decoration:none; display:flex; align-items:center; gap:6px;">
+        <i class="fa-solid fa-circle-xmark"></i> Cancelar
+      </a>
+
+      <button type="submit" style="background-color:#133E34; border:none; color:white; font-weight:500; border-radius:10px; padding:10px 18px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+        <i class="fa-solid fa-pencil"></i> Atualizar
+      </button>
+    </div>
+  </form>
+</div>

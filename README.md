@@ -2,7 +2,7 @@
 
  Observação: Para inserir os dados iniciais na tabela `necessidade_hidrica`, execute o comando:
 >
-> ```bash
+> ```bashjs
+> node dist/modules/planta/necSeed.
 > node dist/modules/planta/necSeed.js
-> node dist/modules/sensor/tipoSensor.Seeds.js
 > ```

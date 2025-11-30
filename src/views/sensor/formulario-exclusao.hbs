@@ -1,0 +1,44 @@
+<div class="container" style="
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 25px 35px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
+  margin-top: 40px;
+">
+  <h2 style="font-size: 1.8rem; font-weight: 700; color: #1a5748; border-bottom: 2px solid #1a5748; padding-bottom: 8px;">
+    Exclusão de Sensor
+  </h2>
+
+  <!-- Mensagens de erro -->
+  {{#if error}}
+    <div class="alert alert-danger" style="margin-top: 15px;">
+      {{#each error}}
+        <p class="p-0 m-0">{{this.message}}</p>
+      {{/each}}
+    </div>
+  {{/if}}
+
+  {{#if sensor}}
+  <form method="post" action="/sensor/{{sensor.id}}/exclusao?_method=delete" style="margin-top: 20px;">
+    <p style="font-size: 1rem;">
+      Deseja realmente excluir o sensor 
+      <b>{{sensor.nome}}</b> ({{sensor.tipoSensor.nome}})?
+    </p>
+
+    <div style="margin-top: 20px; display: flex; gap: 10px;">
+      <button type="submit" class="btn btn-danger" style="padding: 10px 18px; border-radius: 10px; font-weight: 500;">
+        Excluir
+      </button>
+      <a href="/sensor/listagem" class="btn btn-secondary" style="padding: 10px 18px; border-radius: 10px; font-weight: 500;">
+        Cancelar
+      </a>
+    </div>
+  </form>
+  {{else}}
+    <p class="text-muted" style="margin-top: 20px; font-style: italic;">Sensor não encontrado.</p>
+    <a href="/sensor/listagem" class="btn btn-secondary" style="margin-top: 10px; padding: 10px 18px; border-radius: 10px; font-weight: 500;">
+      Voltar
+    </a>
+  {{/if}}
+</div>

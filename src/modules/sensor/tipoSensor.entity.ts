@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity } from 'typeorm';
 import { Sensor } from './sensor.entity';
 
 @Entity('tipo_sensor')
-export class TipoSensor {
+export class TipoSensor extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
