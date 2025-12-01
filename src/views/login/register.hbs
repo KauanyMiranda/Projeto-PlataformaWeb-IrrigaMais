@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Irriga +</title>
+    <title>Cadastro - Irriga +</title>
     <link rel="stylesheet" href="/css/login.css">
     <script src="https://kit.fontawesome.com/aef00f4de5.js" crossorigin="anonymous"></script>
 
@@ -13,25 +13,27 @@
     <div class="container">
         <img src="/images/logo.png" alt="logo irriga+">
 
-        <form action="/auth/login" method="post">
+        <form action="/auth/register" method="post">
 
             <div class="input-group">
                 <label for="">Email</label><br>
                 <i class="fa-solid fa-user"></i>
-                <input type="email" name="email" placeholder="devserbug@gmail.com" required>
+                <input type="email" name="email" placeholder="exemplo@gmail.com" required>
             </div>
             
             <div class="input-group">
                 <label for="">Senha</label><br>
                 <i class="fa-solid fa-key"></i>
-                <input type="password" id="password" name="senha" placeholder="Senha" required>
+                <input type="password" id="password" name="senha" placeholder="senha" required>
             </div>
 
-            <label for="" class="cadastro-label">
-                Não possui cadastro? 
-                <a href="/auth/register">Criar conta...</a>
-            </label> <br>           
-            <button type="submit" class="entrar">Entrar</button>
+            <div class="input-group">
+                <label for="">Confirmar senha</label><br>
+                <i class="fa-solid fa-key"></i>
+                <input type="password" id="password" name="confsenha" placeholder="senha" required>
+            </div>
+          
+            <button type="submit" class="cadastrar">Cadastrar</button>
         </form>
     </div>
     </main>

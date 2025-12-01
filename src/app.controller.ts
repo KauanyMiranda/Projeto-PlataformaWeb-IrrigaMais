@@ -1,7 +1,7 @@
-import { Controller, Get, Render, Query } from '@nestjs/common';
+import { Controller, Get, Req, Res } from '@nestjs/common';
+import { Response, Request } from 'express';
 import { WeatherService } from './weather/weather.service';
 import { PlantaService } from './modules/planta/planta.service';
-import { Previsao } from './weather/weather.service';
 
 @Controller()
 export class AppController {
@@ -10,27 +10,49 @@ export class AppController {
     private readonly plantaService: PlantaService,
   ) {}
 
+  // Quando acessar raiz → sempre vai para login
   @Get()
-  @Render('home')
-  async home() {
+  async redirectToLogin(@Req() req: Request, @Res() res: Response) {
+    // Se já estiver logado, joga direto pra home
+    if (req.session.user) {
+      return res.redirect('/home');
+    }
+
+    return res.redirect('/auth/login');
+  }
+
+  @Get('/home')
+  async home(@Req() req: Request, @Res() res: Response) {
+    // Protege a rota: se não tiver user na sessão, volta pro login
+    if (!req.session.user) {
+      return res.redirect('/auth/login');
+    }
+
     const latitude = -10.8777;
     const longitude = -61.9326;
 
-    const clima = await this.weatherService.getWeather(latitude, longitude);
+    let clima: any = {};
+    let previsao: any[] = [];
+    let ultimasPlantas: any[] = [];
 
-    (clima as any).cidade = "Ji-Paraná";
-(clima as any).estado = "RO";
-(clima as any).pais = "Brasil";
+    try {
+      clima = await this.weatherService.getWeather(latitude, longitude);
+      previsao = await this.weatherService.getForecast(latitude, longitude);
+      ultimasPlantas = await this.plantaService.listarUltimas(3);
 
-    const previsao = await this.weatherService.getForecast(latitude, longitude);
+      clima.cidade = 'Ji-Paraná';
+      clima.estado = 'RO';
+      clima.pais = 'Brasil';
+    } catch (error) {
+      console.error('Erro ao carregar dados da home:', error);
+    }
 
-    const ultimasPlantas = await this.plantaService.listarUltimas(3);
-
-    return {
+    return res.render('home', {
       title: 'Início - Irriga+',
       clima,
       previsao,
-      ultimasPlantas
-    };
+      ultimasPlantas,
+      usuario: req.session.user,
+    });
   }
 }
