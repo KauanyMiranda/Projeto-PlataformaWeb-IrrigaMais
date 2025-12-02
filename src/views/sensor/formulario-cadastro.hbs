@@ -14,7 +14,6 @@
 
   <form method="post" action="/sensor/novo/salvar" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
 
-    <!-- Nome -->
     <label for="nomeSensor" style="font-weight: 600; color: #133E34;">Nome</label>
     <input 
       type="text" 
@@ -23,21 +22,16 @@
       value="{{old.nome}}"  
       style="border-radius:10px; border:1px solid #E5E5E5; padding:10px 14px; width: 100%;">
 
-    <!-- Tipo de Sensor -->
     <label for="tipo_sensor" style="font-weight: 600; color: #133E34;">Tipo de Sensor</label>
     <select 
-      name="tipo_sensor_id" 
-      id="tipo_sensor"
+      name="tipoSensor" 
       style="border-radius:10px; border:1px solid #E5E5E5; padding:10px; width: 100%;">
       <option value="">Selecione</option>
-      {{#each tiposSensores}}
-        <option value="{{this.id}}" {{selected-option this.id '' ../old.tipo_sensor_id}}>
-          {{this.nome}} ({{this.unidade_medida}})
-        </option>
+      {{#each tipoSensores}}
+        <option {{selected-option this.id '' old.tipoSensor}} value="{{this.id}}">{{this.nome}} ({{this.unidade_medida}})</option>
       {{/each}}
     </select>
 
-    <!-- Localização -->
     <label for="localizacaoSensor" style="font-weight: 600; color: #133E34;">Localização</label>
     <input 
       type="text" 
@@ -46,7 +40,6 @@
       value="{{old.localizacao}}"  
       style="border-radius:10px; border:1px solid #E5E5E5; padding:10px 14px; width:100%;">
 
-    <!-- Status -->
     <label style="font-weight: 600; color: #133E34;">Status</label>
     <select name="status" style="border-radius:10px; border:1px solid #E5E5E5; padding:10px; width: 100%;">
       <option value="true"  {{selected-option true '' old.status}}>Ativo</option>

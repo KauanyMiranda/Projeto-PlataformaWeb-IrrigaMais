@@ -2,9 +2,8 @@ import { IsNotEmpty, IsString, MaxLength, MinLength, IsArray, ArrayNotEmpty } fr
 import { Type, Transform } from 'class-transformer';
 
 export class RotinaDto {
-  @IsNotEmpty({ message: 'O nome da rotina é obrigatório.' })
-  @MinLength(4, { message: 'O nome deve ter no mínimo 4 caracteres.' })
-  @MaxLength(10, { message: 'O nome deve ter no máximo 10 caracteres.' })
+  @IsNotEmpty({ message: 'O nome da rotina é obrigatória.' })
+  @MinLength(4, { message: 'O nome deve ter no mínimo 3 caracteres.' })
   nome: string;
 
   @IsNotEmpty({ message: 'A frequência é obrigatória.' })
@@ -15,7 +14,6 @@ export class RotinaDto {
   dias: string[];
 
   @IsNotEmpty({ message: 'Os horários são obrigatórios.' })
-  @ArrayNotEmpty({ message: 'O horário não pode estar vazio.' })
   @Transform(({ value }) => (typeof value === 'string' ? value.split(',') : value))
   horarios: string[];
 

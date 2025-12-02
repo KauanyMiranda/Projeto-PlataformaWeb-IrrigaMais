@@ -1,22 +1,19 @@
-import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
-import { PlantaService } from './planta.service';
+import { Module } from '@nestjs/common';
+import { NecHidricaService } from '../necHidrica/necHidrica.service';
 import { PlantaController } from './planta.controller';
-import { RotinaModule } from '../rotina/rotina.modules';
-import { DatabaseModule } from '../../database/database.module';
+import { PlantaService } from './planta.service';
 import { SensorModule } from '../sensor/sensor.modules';
-import { NecessidadeHidricaService } from './necHidrica.service';
-import { OldMiddleware } from 'src/common/middlewares/old.middleware';
+import { NecHidricaModule } from '../necHidrica/necHidrica.modules';
+import { RotinaModule } from '../rotina/rotina.modules';
 
 @Module({
-  imports: [DatabaseModule, RotinaModule, SensorModule],
-  providers: [PlantaService, NecessidadeHidricaService],
+  imports: [
+    SensorModule,
+    RotinaModule,     
+    NecHidricaModule,
+],
   controllers: [PlantaController],
-  exports: [PlantaService],
+  providers: [PlantaService, NecHidricaService],
+  exports: [PlantaService]
 })
-export class PlantaModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(OldMiddleware)
-      .forRoutes({ path: 'planta/*', method: RequestMethod.ALL });
-  }
-}
+export class PlantaModule { }

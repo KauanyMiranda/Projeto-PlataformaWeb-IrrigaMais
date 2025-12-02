@@ -10,7 +10,6 @@
     Exclusão de Sensor
   </h2>
 
-  <!-- Mensagens de erro -->
   {{#if error}}
     <div class="alert alert-danger" style="margin-top: 15px;">
       {{#each error}}
@@ -23,7 +22,7 @@
   <form method="post" action="/sensor/{{sensor.id}}/exclusao?_method=delete" style="margin-top: 20px;">
     <p style="font-size: 1rem;">
       Deseja realmente excluir o sensor 
-      <b>{{sensor.nome}}</b> ({{sensor.tipoSensor.nome}})?
+      <b>{{sensor.nome}}</b>?
     </p>
 
     <div style="margin-top: 20px; display: flex; gap: 10px;">

@@ -46,19 +46,18 @@
       width: 80%;
     ">
 
-<div style="display: flex; gap: 20px; width: 100%">
+  <div style="display: flex; gap: 20px; width: 100%">
 
-  <!-- Necessidade Hídrica -->
   <div style="flex: 1">
     <label for="necessidade_hidrica" style="font-weight: 600; color: #133E34;">Necessidade Hídrica</label>
-    <select name="necessidade_hidrica_id" id="necessidade_hidrica" style="
+    <select name="necHidrica" id="necessidade_hidrica" style="
       border-radius:10px; 
       border:1px solid #E5E5E5; 
       padding:10px; 
       width: 100%;
     ">
       <option value="">Selecione</option>
-      {{#each necessidades}}
+      {{#each necHidrica}}
         <option value="{{this.id}}" {{#ifEquals this.id ../planta.necessidade_hidrica_id}}selected{{/ifEquals}}>
           {{this.nome}} ({{this.qtdLitro}} L)
         </option>
@@ -66,17 +65,16 @@
     </select>
   </div>
 
-    <!-- Sensor -->
     <div style="flex: 1">
       <label for="sensor" style="font-weight: 600; color: #133E34;">Sensor</label>
-      <select name="sensor_id" id="sensor" style="
+      <select name="sensor" id="sensor" style="
         border-radius:10px; 
         border:1px solid #E5E5E5; 
         padding:10px; 
         width: 100%;
       ">
         <option value="">Selecione</option>
-        {{#each sensores}}
+        {{#each sensor}}
           <option value="{{this.id}}" {{#ifEquals this.id ../planta.sensor_id}}selected{{/ifEquals}}>
             {{this.nome}} ({{this.tipoSensor.nome}})
           </option>
@@ -86,14 +84,14 @@
 
     </div>
     <label for="rotina" style="font-weight: 600; color: #133E34;">Rotina de Irrigação</label>
-    <select name="rotina_id" id="rotina" style="
+    <select name="rotina" id="rotina" style="
       border-radius:10px; 
       border:1px solid #E5E5E5; 
       padding:10px; 
       width: 50%;
     ">
       <option value="">Selecione uma rotina</option>
-      {{#each rotinas}}
+      {{#each rotina}}
         <option value="{{this.id}}" {{#ifEquals this.id ../planta.rotina_id}}selected{{/ifEquals}}>
           {{this.nome}}
         </option>
@@ -132,5 +130,6 @@
         {{#if planta.id}}Atualizar{{else}}Cadastrar{{/if}}
       </button>
     </div>
+    
   </form>
 </div>

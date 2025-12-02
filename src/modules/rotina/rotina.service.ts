@@ -3,30 +3,35 @@ import { Rotina } from './rotina.entity';
 
 @Injectable()
 export class RotinaService {
-  
-  async getAll(): Promise<Rotina[]> {
-    return await Rotina.find();
-  }
+    async getAll() {
+        const rotinas = await Rotina.find();
 
-  async getById(id: number): Promise<Rotina | null> {
-    return await Rotina.findOneBy({ id });
-  }
+        return rotinas;
+    }
 
-  async create(data: Partial<Rotina>): Promise<Rotina> {
-const rotina = Rotina.create(data) as Rotina;
-    return await rotina.save();
-  }
+    async findOne(id: number) {
+        const rotina = await Rotina.findOne({
+            where: { id: id },
+        });
 
- async update(id: number, data: Partial<Rotina>): Promise<Rotina | null> {
-  const rotina = await this.getById(id);
-  if (!rotina) return null;
-  Object.assign(rotina, data);
-  return await rotina.save() as Rotina;
-}
+        return rotina;
+    }    
 
+    async create(data: any) {
+        const rotina = Rotina.create({
+            ...data,
+        });
 
-  async delete(id: number): Promise<void> {
-    const rotina = await this.getById(id);
-    if (rotina) await rotina.remove();
-  }
+        return await rotina.save();
+    }    
+
+    async update(id: number, data: any) {
+        return await Rotina.update(id, {
+            ...data,
+        });
+    }
+
+    async remove(id: number) {
+        await Rotina.delete(id);
+    }
 }

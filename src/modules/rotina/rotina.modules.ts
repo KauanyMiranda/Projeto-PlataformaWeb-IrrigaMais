@@ -1,17 +1,11 @@
-import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
-import { RotinaController } from './rotina.controller';
+import { Module } from '@nestjs/common';
+import { RotinaController } from '../rotina/rotina.controller';
 import { RotinaService } from './rotina.service';
-import { OldMiddleware } from 'src/common/middlewares/old.middleware';
 
 @Module({
-  controllers: [RotinaController],
-  providers: [RotinaService],
-  exports: [RotinaService],
+    imports: [],
+    controllers: [RotinaController],
+    providers: [RotinaService],
+    exports: [RotinaService]
 })
-export class RotinaModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(OldMiddleware)
-      .forRoutes({ path: 'rotina/*', method: RequestMethod.ALL });
-  }
-}
+export class RotinaModule { }

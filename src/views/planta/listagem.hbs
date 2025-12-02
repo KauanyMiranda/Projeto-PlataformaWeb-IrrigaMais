@@ -21,7 +21,6 @@
     </a>
   </div>
 
-  <!-- Mensagens de sucesso e erro -->
   {{#if success}}
     <div class="alert alert-success" style="margin-top: 15px;">
       {{#each success}}
@@ -49,13 +48,13 @@
       </tr>
     </thead>
     <tbody>
-      {{#if plantas.length}}
-        {{#each plantas}}
+      {{#if listaPlantas.length}}
+        {{#each listaPlantas}}
         <tr style="text-align: center;">
           <td style="padding: 10px;">{{nome}}</td>
           <td style="padding: 10px;">
-            {{#if necessidade_hidrica}}
-              {{necessidade_hidrica.nome}} ({{necessidade_hidrica.qtdLitro}} L)
+            {{#if necHidrica}}
+              {{necHidrica.nome}} ({{necHidrica.qtdLitro}} L)
             {{else}}Não definida{{/if}}
           </td>
           <td style="padding: 10px;">

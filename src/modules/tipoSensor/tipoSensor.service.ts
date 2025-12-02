@@ -3,11 +3,7 @@ import { TipoSensor } from './tipoSensor.entity';
 
 @Injectable()
 export class TipoSensorService {
-  async getAll(): Promise<TipoSensor[]> {
+  async getAll() {
     return await TipoSensor.find();
-  }
-
-  async findById(id: number): Promise<TipoSensor | null> {
-    return await TipoSensor.findOne({ where: { id } });
   }
 }

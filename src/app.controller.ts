@@ -10,10 +10,8 @@ export class AppController {
     private readonly plantaService: PlantaService,
   ) {}
 
-  // Quando acessar raiz → sempre vai para login
   @Get()
   async redirectToLogin(@Req() req: Request, @Res() res: Response) {
-    // Se já estiver logado, joga direto pra home
     if (req.session.user) {
       return res.redirect('/home');
     }
@@ -23,7 +21,6 @@ export class AppController {
 
   @Get('/home')
   async home(@Req() req: Request, @Res() res: Response) {
-    // Protege a rota: se não tiver user na sessão, volta pro login
     if (!req.session.user) {
       return res.redirect('/auth/login');
     }
@@ -38,7 +35,7 @@ export class AppController {
     try {
       clima = await this.weatherService.getWeather(latitude, longitude);
       previsao = await this.weatherService.getForecast(latitude, longitude);
-      ultimasPlantas = await this.plantaService.listarUltimas(3);
+      ultimasPlantas = await this.plantaService.getUltimas(3);
 
       clima.cidade = 'Ji-Paraná';
       clima.estado = 'RO';

@@ -4,22 +4,20 @@ import { validate } from 'src/common/validator/generic.validator';
 import { RotinaService } from './rotina.service';
 import { RotinaDto } from './rotina.dto';
 
+
+
 @Controller('/rotina')
 export class RotinaController {
   constructor(private readonly rotinaService: RotinaService) {}
 
-  @Get('/listagem')
-  @Render('rotina/listagem')
-  async listar(@Req() req: Request) {
-    const search = req.query.nome?.toString().toLowerCase() || '';
-    let rotinas = await this.rotinaService.getAll();
+    @Get("/listagem")
+    @Render('rotina/listagem')
+    async consulta() {
+        const rotinas = await this.rotinaService.getAll();
 
-    if (search) {
-      rotinas = rotinas.filter(r => r.nome.toLowerCase().includes(search));
+        return { rotinas: rotinas };
     }
 
-    return { rotinas, search };
-  }
 
   @Get('/novo')
   @Render('rotina/formulario-cadastro')
@@ -32,109 +30,129 @@ export class RotinaController {
   }
 
   @Post('/novo/salvar')
-  async formularioCadastroSalvar(@Body() dadosForm: any, @Req() req: Request, @Res() res: Response) {
-    const resultado = await validate(RotinaDto, dadosForm);
+    async formularioCadastroSalvar(
+        @Body() dadosForm: any,
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {   
 
-    if (resultado.isError) {
-      req.addFlash('error', resultado.getErrors);
-      req.setOld(dadosForm);
-      return res.redirect('/rotina/novo');
+        const resultado = await validate(RotinaDto, dadosForm);
+
+        if (resultado.isError) {
+            req.addFlash('error', resultado.getErrors);
+
+            return res.redirect('/rotina/novo');
+        } else {
+
+            await this.rotinaService.create({
+            nome: dadosForm.nome,
+            frequencia: dadosForm.frequencia,
+            dias: Array.isArray(dadosForm.dias) ? dadosForm.dias : [dadosForm.dias],
+            horarios: Array.isArray(dadosForm.horarios) ? dadosForm.horarios : [dadosForm.horarios],
+            tipo_execucao: dadosForm.tipo_execucao
+            });
+
+            req.addFlash('success', 'Rotina adicionada com sucesso!');
+
+            return res.redirect('/rotina/listagem');
+        }
     }
 
-    await this.rotinaService.create({
-      nome: dadosForm.nome,
-      frequencia: dadosForm.frequencia,
-      dias: Array.isArray(dadosForm.dias) ? dadosForm.dias : [dadosForm.dias],
-      horarios: Array.isArray(dadosForm.horarios) ? dadosForm.horarios : [dadosForm.horarios],
-      tipo_execucao: dadosForm.tipo_execucao
-    });
+    @Get('/:id/exclusao')
+    @Render('rotina/formulario-exclusao')
+    async formularioExclusao(
+        @Param('id') id: number,
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {
+        const rotina = await this.rotinaService.findOne(id);
 
-    req.addFlash('success', 'Rotina cadastrada com sucesso!');
-    return res.redirect('/rotina/listagem');
-  }
+        if (rotina == null) {
+            req.addFlash('error', 'A rotina selecionada não foi encontrada!');
 
-  @Get('/:id/atualizacao')
-  @Render('rotina/formulario-cadastro')
-  async formularioAtualizacao(@Param('id') id: string, @Req() req: Request, @Res() res: Response) {
-    const rotina = await this.rotinaService.getById(Number(id));
+            return res.redirect('/rotina');
+        }
 
-    if (!rotina) {
-      req.addFlash('error', 'Rotina não encontrada!');
-      return res.redirect('/rotina/listagem');
+        return { rotina };
     }
 
-    return {
-      rotina,
-      frequencias: [1, 2, 3, 4],
-      diasSemana: ["segunda","terca","quarta","quinta","sexta","sabado","domingo"]
-    };
-  }
+    @Delete('/:id/exclusao')
+    async excluir(
+        @Param('id') id: number,
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {
+        const rotina = await this.rotinaService.findOne(id);
 
-  @Put('/:id/atualizacao-salvar')
-  async atualizacaoSalvar(@Param('id') id: string, @Body() dadosForm: any, @Req() req: Request, @Res() res: Response) {
-    const rotina = await this.rotinaService.getById(Number(id));
+        if (rotina == null) {
+            req.addFlash('error', 'A rotina solicitada não foi encontrada!');
+        } else {
+            req.addFlash(
+                'success',
+                `Rotina: ${rotina.nome} excluída com sucesso!`,
+            );
+            await this.rotinaService.remove(id);
+        }
 
-    if (!rotina) {
-      req.addFlash('error', 'Rotina não encontrada!');
-      return res.redirect('/rotina/listagem');
+        return res.redirect('/rotina/listagem');
     }
 
-    const resultado = await validate(RotinaDto, dadosForm);
+    @Get('/:id/atualizacao')
+    @Render('rotina/formulario-cadastro')
+    async formularioAtualizacao(
+        @Param('id') id: number,
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {
+        const rotina = await this.rotinaService.findOne(id);
 
-    if (resultado.isError) {
-      req.addFlash('error', resultado.getErrors);
-      req.setOld(dadosForm);
-      return res.redirect(`/rotina/${id}/atualizacao`);
+        if (rotina == null) {
+            req.addFlash('error', 'A rotina solicitada não foi encontrada!');
+
+            return res.redirect('/rotina/listagem');
+        }
+
+        return {
+            rotina,
+            frequencias: [1, 2, 3, 4],
+            diasSemana: ["segunda","terca","quarta","quinta","sexta","sabado","domingo"]
+        };
     }
 
-    await this.rotinaService.update(Number(id), {
-      nome: dadosForm.nome,
-      frequencia: dadosForm.frequencia,
-      dias: Array.isArray(dadosForm.dias) ? dadosForm.dias : [dadosForm.dias],
-      horarios: Array.isArray(dadosForm.horarios) ? dadosForm.horarios : [dadosForm.horarios],
-      tipo_execucao: dadosForm.tipo_execucao
-    });
+    @Put('/:id/atualizacao-salvar')
+    async atualizacaoSalvar(
+        @Param('id') id: number,
+        @Body() dados: any,
+        @Req() req: Request,
+        @Res() res: Response,
+    ) {
+        const rotina = await this.rotinaService.findOne(id);
 
-    req.addFlash('success', 'Rotina atualizada com sucesso!');
-    return res.redirect('/rotina/listagem');
-  }
+        if (rotina == null) {
+            req.addFlash('error', 'A rotina solicitada não foi encontrada!');
+            return res.redirect('/rotina/listagem');
+        }
 
-  @Get('/:id/exclusao')
-  @Render('rotina/formulario-exclusao')
-  async formularioExclusao(@Param('id') id: string, @Req() req: Request, @Res() res:Response) {
-    const rotina = await this.rotinaService.getById(Number(id));
+        const resultado = await validate(RotinaDto, dados);
 
-    if (!rotina) {
-      req.addFlash('error', 'Rotina não encontrada!');
-      return res.redirect('/rotina/listagem');
+        if (resultado.isError) {
+            req.addFlash('error', resultado.getErrors);
+            req.setOld(dados);
+
+            return res.redirect(`/rotina/${id}/atualizacao`);
+        } else {
+
+            await this.rotinaService.update(id, {
+            nome: dados.nome,
+            frequencia: dados.frequencia,
+            dias: Array.isArray(dados.dias) ? dados.dias : [dados.dias],
+            horarios: Array.isArray(dados.horarios) ? dados.horarios : [dados.horarios],
+            tipo_execucao: dados.tipo_execucao
+            });
+
+            req.addFlash('success', 'Rotina atualizada com sucesso!');
+
+            return res.redirect('/rotina/listagem');
+        }
     }
-
-    return { rotina };
-  }
-
-  @Delete('/:id/exclusao')
-async excluir(@Param('id') id: string, @Req() req: Request, @Res() res: Response) {
-  const rotina = await this.rotinaService.getById(Number(id));
-
-  if (!rotina) {
-    req.addFlash('error', 'Rotina não encontrada!');
-  } else {
-    try {
-      await this.rotinaService.delete(Number(id));
-      req.addFlash('success', `Rotina ${rotina.nome} excluída com sucesso!`);
-    } catch (error: any) {
-      if (error.code === 'ER_ROW_IS_REFERENCED_2') {
-        req.addFlash(
-          'error',
-          `Não é possível excluir a rotina "${rotina.nome}": existem plantas associadas a ela.`
-        );
-      } else {
-        throw error;
-      }
-    }
-  }
-
-  return res.redirect('/rotina/listagem');
-}
-
 }
