@@ -16,7 +16,6 @@ async function bootstrap() {
 
   app.enableCors();
 
-  // Body do formulário
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
@@ -34,7 +33,6 @@ async function bootstrap() {
 
   app.useStaticAssets(join(__dirname, '..', 'public'));
 
-  // ⚠️ ORDEM IMPORTANTE: session → flash → methodOverride
   app.use(
     session({
       name: 'irriga.sid',

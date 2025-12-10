@@ -6,10 +6,8 @@ import { UsuarioService } from '../usuario/usuario.service';
 export class AuthController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
-  /** LOGIN PAGE */
   @Get('/login')
   getLogin(@Req() req: Request, @Res() res: Response) {
-    // Se já estiver logado, manda pra home
     if (req.session.user) {
       return res.redirect('/home');
     }
@@ -17,7 +15,6 @@ export class AuthController {
     return res.render('login/login', { layout: false });
   }
 
-  /** LOGIN SUBMIT */
   @Post('/login')
   async login(@Body() body: any, @Req() req: Request, @Res() res: Response) {
     const { email, senha } = body;
@@ -28,7 +25,6 @@ export class AuthController {
       return res.redirect('/auth/login');
     }
 
-    // Garante que a sessão é recriada certinho
     req.session.regenerate((err) => {
       if (err) {
         console.error('Erro ao regenerar sessão:', err);
@@ -48,7 +44,6 @@ export class AuthController {
     });
   }
 
-  /** REGISTER PAGE */
   @Get('/register')
   getRegister(@Req() req: Request, @Res() res: Response) {
     if (req.session.user) {
@@ -58,7 +53,6 @@ export class AuthController {
     return res.render('login/register', { layout: false });
   }
 
-  /** REGISTER SUBMIT */
   @Post('/register')
   async doRegister(@Body() body: any, @Req() req: Request, @Res() res: Response) {
     const { email, senha, confsenha } = body;
@@ -80,7 +74,6 @@ export class AuthController {
     return res.redirect('/auth/login');
   }
 
-  /** LOGOUT */
   @Get('/logout')
   logout(@Req() req: Request, @Res() res: Response) {
     req.session.destroy(() => {

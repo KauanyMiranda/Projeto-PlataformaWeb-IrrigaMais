@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
+import { chaveAPI} from "../../chaveAPI"
+
 
 export interface Previsao {
   diaSemana: string;
@@ -15,11 +17,10 @@ export interface Previsao {
 
 @Injectable()
 export class WeatherService {
-  private readonly apiKey = 'b530897f08b4433bc6736eafe8867095';
+  private readonly apiKey = chaveAPI;
 
   constructor(private readonly httpService: HttpService) {}
 
-  // 🌡️ CLIMA ATUAL
   async getWeather(lat: number, lon: number) {
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric&lang=pt_br`;
     const { data } = await firstValueFrom(this.httpService.get(url));
@@ -38,7 +39,6 @@ export class WeatherService {
     };
   }
 
-  // 🌤️ PREVISÃO DOS PRÓXIMOS DIAS
   async getForecast(lat: number, lon: number): Promise<Previsao[]> {
     const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric&lang=pt_br`;
     const { data } = await firstValueFrom(this.httpService.get(url));
@@ -47,9 +47,8 @@ export class WeatherService {
     const previsoes: Previsao[] = [];
     const groupedByDay: Record<string, any[]> = {};
 
-    // Agrupa por dia
     data.list.forEach((item: any) => {
-      const dateStr = item.dt_txt.split(" ")[0]; // "YYYY-MM-DD"
+      const dateStr = item.dt_txt.split(" ")[0]; 
       if (!groupedByDay[dateStr]) groupedByDay[dateStr] = [];
       groupedByDay[dateStr].push(item);
     });
@@ -58,7 +57,6 @@ export class WeatherService {
       const itensDoDia = groupedByDay[dateStr];
       const dataObj = new Date(itensDoDia[0].dt * 1000);
 
-      // média de probabilidade de chuva do dia
       const popMedia = itensDoDia.reduce((sum, i) => sum + (i.pop || 0), 0) / itensDoDia.length;
 
       previsoes.push({
